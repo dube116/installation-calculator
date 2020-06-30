@@ -1,0 +1,135 @@
+<html>
+<head>
+<title>艦これ 對陸計算機</title>
+<meta charset="utf-8">
+
+<script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+<script src="https://unpkg.com/http-vue-loader"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="css/styles.css">
+
+</head>
+<body>
+	<div id="app">
+		<div class="container-fluid">
+            <h4>艦これ 試製對陸計算機一號甲型</h2>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">艦種</span>
+                        </div>
+                        <select class="form-control" v-model="settings.ship_type">
+                            <option value="0">DD、CL</option>
+                            <option value="1">SS、SSV</option>
+                            <option value="9">其他</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">面板火力</span>
+                        </div>
+                        <input type="number" class="form-control" max="999" v-model="base_fp">
+                    </div>
+                    <div class="input-group" v-if="!(settings.fleet_type%2==0&&settings.fleet_type!=0&&settings.enemy_fleet_type==1)">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">基本攻擊力(日)</span>
+                        </div>
+                        <input type="number" class="form-control" disabled v-model="day_fp_display">
+                    </div>
+                    <div class="input-group" v-if="settings.fleet_type%2==0">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">基本攻擊力(夜)</span>
+                        </div>
+                        <input type="number" class="form-control" disabled v-model="night_fp_display">
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">當前彈藥</span>
+                        </div>
+                        <input type="number" class="form-control" max="999" v-model="now_ammo">
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">最大彈藥</span>
+                        </div>
+                        <input type="number" class="form-control" max="999" v-model="max_ammo">
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">cap後倍率</span>
+                        </div>
+                        <input type="number" class="form-control" max="999" v-model="post">
+                    </div><br>
+                    <eqselect v-for="(eq,i) in eqs" v-bind:key="eqs[i].ord" v-bind:eq="eqs[i]"></eqselect>
+                    <br>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">艦隊種類:</span>
+                        </div>
+                        <select class="form-control" v-model="settings.fleet_type" v-on:change="ftype_change">
+                            <option v-for="f in fleet_types" v-bind:value="f.val">
+                                {{ f.text }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">敵艦位置:</span>
+                        </div>
+                        <select class="form-control" v-model="settings.enemy_fleet_type">
+                            <option v-for="f in enemy_fleet_types" v-bind:value="f.val">
+                                {{ f.text }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">陣型:</span>
+                        </div>
+                        <select class="form-control" v-model="settings.fleet_formation">
+                            <template v-if="settings.fleet_type == 0">
+                                <option v-for="f in fleet_formations" v-bind:value="f.val">
+                                    {{ f.text }}
+                                </option>
+                            </template>
+                            <template v-else>
+                                <option v-for="f in combined_fleet_formations" v-bind:value="f.val">
+                                    {{ f.text }}
+                                </option>
+                            </template>
+                        </select>
+                    </div><br>
+                </div>
+                <div class="col-sm-8">
+                <dadi ref="dadi" v-bind:set="set" v-bind:day_fp="day_fp" v-bind:night_fp="night_fp" v-bind:eqs="eqs"></dadi>
+                </div>
+            </div>
+        </div>
+	</div>
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">待更新內容</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    爆擊<br>
+                    AP加成<br>
+                    NT 胸熱<br>
+                    觀測 日二連<br>
+                    夜戰CI<br>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+	<script src="js/main.js"></script>
+</body>
+</html>
