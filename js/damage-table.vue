@@ -218,14 +218,14 @@ module.exports = {
             
 			if(motar>0 || motar_con>0){
 				calc_a13(346, motar+motar_con)
-				calc_a6(346, motar)
+				calc_a6(346, motar+motar_con)
 				calc_b13(346, motar)
 				calc_b13(347, motar_con)
 			}
             
 			if(AGRL>0 || AGRL_con>0){
 				calc_a13(348, AGRL+AGRL_con)
-				calc_a6(348, AGRL)
+				calc_a6(348, AGRL+motar_con)
 				calc_b13(348, AGRL)
 				calc_b13(349, AGRL_con)
 			}
