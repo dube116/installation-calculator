@@ -1,0 +1,26 @@
+<template>
+	<tr>
+		<th scope="row" class="row-head">{{ title+(times>1?'('+times+'回攻擊)':'') }}</th>
+		<template v-for="(p, index) in power" v-bind:key="index">
+			<damageTd v-bind:ammo="ammo" v-bind:armor="enemy.armor" v-bind:hp="enemy.hp" v-bind:power="p" v-bind:times="times"/>
+		</template>
+	</tr>
+</template>
+
+<script>
+import damageTd from './damage-td.vue'
+
+export default {
+	props: ['ammo', 'enemy', 'power', 'times', 'title'],
+	components: {
+		damageTd
+	}
+}
+</script>
+
+<style>
+th.row-head{
+	width: 150px;
+	vertical-align: middle;
+}
+</style>

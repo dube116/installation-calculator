@@ -1,17 +1,13 @@
 <template>
-	<td v-bind:class="cl">
+	<td v-bind:class="color">
 		{{ range }}<br>
-		{{ rate }}
+		{{ Math.floor(rate*100)+"%" }}
 	</td>
 </template>
+
 <script>
-module.exports = {
-	data () {
-		return {
-			"cl":"table-danger"
-		}
-	},
-	props: ['power', 'armor', 'hp', 'ammo'],
+export default {
+	props: ['ammo', 'armor', 'hp', 'power', 'times'],
 	computed: {
 		'bottom': function (){
 			let s = this.power - this.armor*0.7-(this.armor-1)*0.6
@@ -23,9 +19,22 @@ module.exports = {
 			s = Math.floor(s)
 			return s
 		},
+		'color': function (){
+			let r = this.rate
+            let s = ''
+			if(r==1)
+				s = "table-success"
+			else if(r>0.5)
+				s = "table-yellow"
+			else if(r>0)
+				s = "table-warning"
+			else
+				s = "table-danger"
+			return s
+		},
 		'range': function (){
-			b = this.bottom
-			t = this.top
+			let b = this.bottom
+			let t = this.top
 			if(t<=0){
 				return "擦傷"
 			}
@@ -44,20 +53,18 @@ module.exports = {
 			s/= this.armor
 			s = s>1?1:s
 			s = s<0?0:s
-			if(s==1)
-				this.cl="table-success"
-			else if(s>0.5)
-				this.cl="table-yellow"
-			else if(s>0)
-				this.cl="table-warning"
-			else
-				this.cl="table-danger"
-			s = Math.floor(s*100)+"%" 
 			return s
-		},
-		'color': function (){
-			
 		}
 	}
 }
 </script>
+
+<style>
+td{
+	width: 150px;
+}
+
+.table-yellow{
+	background-color: #FFFFAA;
+}
+</style>

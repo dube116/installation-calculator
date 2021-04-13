@@ -1,26 +1,26 @@
 <template>
 	<div class="input-group">
 		<div class="input-group-prepend">
-			<span class="input-group-text">裝備{{ eq.ord }}</span>
+			<span class="input-group-text">裝備{{ ord }}</span>
 		</div>
-		<select class="form-control" v-model="eq.id" v-on:change="eq_change">
+		<select class="form-control" v-model="equipment.id" v-on:change="eqChange">
 			<option value=0 disabled selected>
 				請選擇裝備
 			</option>
-			<option v-for="e in eqlist" v-bind:value="e.value" v-bind:title="e.title">
+			<option v-for="(e, index) in eqlist" v-bind:key="index" v-bind:value="e.value" v-bind:title="e.title">
 				{{ e.text }}
 			</option>
 		</select>
-		<template v-if="eqlist[eq_id.indexOf(eq.id)!=-1?eq_id.indexOf(eq.id):0].imp">
+		<template v-if="eqlist[eq_id.indexOf(equipment.id)!=-1?eq_id.indexOf(equipment.id):0].imp">
 			<div class="input-group-append">
 				<span class="input-group-text">★</span>
 			</div>
-			<input type="number" class="form-control input-imp" v-model="eq.imp" min="0" max="10">
+			<input type="number" class="form-control input-imp" v-model="equipment.imp" min="0" max="10">
 		</template>
 	</div>
 </template>
 <script>
-module.exports = {
+export default {
 	data () {
 		return {
 			eqlist: [
@@ -55,14 +55,36 @@ module.exports = {
 				{"text": "高射裝置", "value": 10013, "imp": true, "title": ""},
 				{"text": "探照燈", "value": 10014, "imp": true, "title": ""}
 			],
-			eq_id: [9999,68,166,193,230,355,167,35,36,126,346,347,348,349,10001,10002,10003,10,12,10004,10005,10006,10007,10008,10009,10010,10011,10012,10013,10014]
+			eq_id: [9999,68,166,193,230,355,167,35,36,126,346,347,348,349,10001,10002,10003,10,12,10004,10005,10006,10007,10008,10009,10010,10011,10012,10013,10014],
+            equipment: {
+                id: 0, 
+                imp: 0
+            }
+            
 		}
 	},
-	props: ['eq'],
+    created: function () {
+        this.$emit('update', this.ord, this.equipment.id, this.equipment.imp)
+    },
 	methods: {
-		eq_change: function (event) {
-			this.eq.imp = 0
+		eqChange: function () {
+			this.equipment.imp = 0
 		}
-	}
+	},
+	props: ['ord'],
+    watch: {
+        'equipment.id': function (){
+            this.$emit('update', this.ord, this.equipment.id, this.equipment.imp)
+        },
+        'equipment.imp': function (){
+            this.$emit('update', this.ord, this.equipment.id, this.equipment.imp)
+        }
+    }
 }
 </script>
+
+<style scoped>
+.input-imp{
+	max-width: 75px;
+}
+</style>
