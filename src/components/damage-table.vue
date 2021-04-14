@@ -330,7 +330,6 @@ export default {
 <style>
 .damage-table{
 	text-align: center;
-    margin-top: 20px;
     width: auto;
 }
 </style>
