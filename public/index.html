@@ -25,8 +25,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    
+                <div class="modal-body" style="padding-right:75px">                    
                     <ul>
                         <li> TODO
                             <ul>
@@ -35,7 +34,6 @@
                                 <li>爆擊</li>
                                 <li>武裝大發、AB艇 - 日夜不同</li>
                                 <li>其他陸基</li>
-                                <li>非集積地上色模式 - 其他陸基通常一片紅</li>
                                 </ul>
                             </li>
                             <li>會作
@@ -54,9 +52,21 @@
                                 <ul>
                                 <li>CV對陸 - 熟練度跟CVCI太麻煩了</li>
                                 <li>科羅拉多 - 補正過於雜亂</li>
-                                <li>DD炮雷探CI - 雖然是能發動但就算是塔什干搭WG也沒多少傷害</li>
+                                <li>DD炮雷探CI - 雖然是能發動但就算是塔什干搭WG也沒多少傷害，等出了能帶車的四格DD再說</li>
                                 </ul>
                             </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li> 2021/04/14 一號乙型改
+                            <ul>
+                            <li>二連顯示的機率現在為兩下總和</li>
+                            <li>新增兩種上色模式</li>
+                            <li>修正夜戰傷害未計算警戒陣影響</li
+                            <li>修正對地噴進炮集中配備與迫擊砲的運算錯誤</li>
+                            <li>修正機率與上色未計算彈藥影響</li>
+                            <li>修正部分取整公式(?)</li>
                             </ul>
                         </li>
                     </ul>
@@ -86,5 +96,11 @@
             </div>
         </div>
     </div>
+    <script>    
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
   </body>
 </html>

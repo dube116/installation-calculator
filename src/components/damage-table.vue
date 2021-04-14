@@ -13,12 +13,12 @@
             <tbody>
                 <template v-if="type.id<1000">
                     <template v-for="(arr, index) in power_table" v-bind:key="index">
-                        <damageTr v-bind:ammo="info.ship.ammo" v-bind:enemy="info.enemy.stat" v-bind:power="arr" v-bind:times="1" v-bind:title="engage[index]"/>
+                        <damage-tr v-bind:settings="info.settings" v-bind:ammo="info.ship.ammo" v-bind:day="type.day" v-bind:enemy="info.enemy.stat" v-bind:power="arr" v-bind:times="type.times" v-bind:title="engage[index]"/>
                     </template>
                 </template>
                 <template v-else>
                     <template v-for="(obj, index) in power_table" v-bind:key="index">
-                        <damageTr v-bind:ammo="info.ship.ammo" v-bind:enemy="info.enemy.stat" v-bind:power="obj.arr" v-bind:times="night_attck_type[obj.type].times" v-bind:title="night_attck_type[obj.type].text"/>
+                        <damage-tr v-bind:settings="info.settings" v-bind:ammo="info.ship.ammo" v-bind:day="type.day" v-bind:enemy="info.enemy.stat" v-bind:power="obj.arr" v-bind:times="night_attck_type[obj.type].times" v-bind:title="night_attck_type[obj.type].text"/>
                     </template>
                 </template>
             </tbody>
@@ -81,7 +81,7 @@ export default {
             else {
                 fp = this.info.ship.night_fp
             }
-            let formation = this.info.fleet.formationMul
+            let formationMul = this.info.fleet.formationMul
             
             let a13 = 1
             let b13 = 0
@@ -183,7 +183,7 @@ export default {
             
             if(eq.AGRL > 0 || eq.AGRL_con > 0){
                 calc_a13(348, eq.AGRL + eq.AGRL_con)
-                calc_a6(348, eq.AGRL + eq.motar_con)
+                calc_a6(348, eq.AGRL + eq.AGRL_con)
                 calc_b13(348, eq.AGRL)
                 calc_b13(349, eq.AGRL_con)
             }
@@ -230,15 +230,16 @@ export default {
                 s = [[],[],[],[]]
                 for(let i = 0; i < 4; i++){
                     for(let j = 0; j < 3; j++){
-                        let pre_cap = fp*formation*this.engage_mul[i]*this.damaged_mul[j]*this.type.pre
-                        let post_cap = pre_cap
-                        if(post_cap>this.cap){
-                            post_cap = this.cap + Math.sqrt(post_cap - this.cap)
+                        let pre_cap = fp*formationMul*this.engage_mul[i]*this.damaged_mul[j]*this.type.pre
+                        if(pre_cap>this.cap){
+                            pre_cap = this.cap + Math.sqrt(pre_cap - this.cap)
                         }
-                        post_cap = Math.floor(post_cap*this.info.ship.post)
-                        post_cap = Math.floor(post_cap*a6)
-                        post_cap = Math.floor(post_cap*a7)
-                        post_cap*= this.type.post
+                        let post_cap = Math.floor(pre_cap)
+                        post_cap *= this.type.post
+                        if (a7 != 1){
+                            post_cap = Math.floor(post_cap*a7)
+                        }
+                        post_cap = post_cap*this.info.ship.post*a6
                         s[i].push(post_cap)
                     }
                 }
@@ -250,12 +251,16 @@ export default {
                 s[0].type = 0
                 for(let i = 0; i < 2; i++){
                     let pre_cap = fp*this.damaged_mul[i]
-                    let post_cap = pre_cap
-                    if(post_cap>this.cap){
-                        post_cap = this.cap + Math.sqrt(post_cap - this.cap)
+                    if (this.info.fleet.fleetFormation == 5) {
+                        // 警戒陣
+                        pre_cap*= formationMul
                     }
-                    post_cap = Math.floor(post_cap*this.info.ship.post)
-                    post_cap = Math.floor(post_cap*a6)
+                    if(pre_cap>this.cap){
+                        pre_cap = this.cap + Math.sqrt(pre_cap - this.cap)
+                    }
+                    let post_cap = Math.floor(pre_cap)
+                    post_cap *= this.type.post
+                    post_cap = post_cap*this.info.ship.post*a6
                     s[0].arr.push(post_cap)
                 }
                 if(eq.main_gun > 2){
@@ -264,12 +269,16 @@ export default {
                     s[s.length-1].type = 2
                     for(let i = 0; i < 2; i++){
                         let pre_cap = fp*this.damaged_mul[i]*2
-                        let post_cap = pre_cap
-                        if(post_cap>this.cap){
-                            post_cap = this.cap + Math.sqrt(post_cap - this.cap)
+                        if (this.info.fleet.fleetFormation == 5) {
+                            // 警戒陣
+                            pre_cap*= formationMul
                         }
-                        post_cap = Math.floor(post_cap*this.info.ship.post)
-                        post_cap = Math.floor(post_cap*a6)
+                        if(pre_cap>this.cap){
+                            pre_cap = this.cap + Math.sqrt(pre_cap - this.cap)
+                        }
+                        let post_cap = Math.floor(pre_cap)
+                        post_cap *= this.type.post
+                        post_cap = post_cap*this.info.ship.post*a6
                         s[s.length-1].arr.push(post_cap)
                     }
                 }
@@ -279,12 +288,16 @@ export default {
                     s[s.length-1].type = 3
                     for(let i = 0; i < 2; i++){
                         let pre_cap = fp*this.damaged_mul[i]*1.75
-                        let post_cap = pre_cap
-                        if(post_cap>this.cap){
-                            post_cap = this.cap + Math.sqrt(post_cap - this.cap)
+                        if (this.info.fleet.fleetFormation == 5) {
+                            // 警戒陣
+                            pre_cap*= formationMul
                         }
-                        post_cap = Math.floor(post_cap*this.info.ship.post)
-                        post_cap = Math.floor(post_cap*a6)
+                        if(pre_cap>this.cap){
+                            pre_cap = this.cap + Math.sqrt(pre_cap - this.cap)
+                        }
+                        let post_cap = Math.floor(pre_cap)
+                        post_cap *= this.type.post
+                        post_cap = post_cap*this.info.ship.post*a6
                         s[s.length-1].arr.push(post_cap)
                     }
                 }
@@ -294,12 +307,16 @@ export default {
                     s[s.length-1].type = 1
                     for(let i = 0; i < 2; i++){
                         let pre_cap = fp*this.damaged_mul[i]*1.2
-                        let post_cap = pre_cap
-                        if(post_cap>this.cap){
-                            post_cap = this.cap + Math.sqrt(post_cap - this.cap)
+                        if (this.info.fleet.fleetFormation == 5) {
+                            // 警戒陣
+                            pre_cap*= formationMul
                         }
-                        post_cap = Math.floor(post_cap*this.info.ship.post)
-                        post_cap = Math.floor(post_cap*a6)
+                        if(pre_cap>this.cap){
+                            pre_cap = this.cap + Math.sqrt(pre_cap - this.cap)
+                        }
+                        let post_cap = Math.floor(pre_cap)
+                        post_cap *= this.type.post
+                        post_cap = post_cap*this.info.ship.post*a6
                         s[s.length-1].arr.push(post_cap)
                     }
                 }

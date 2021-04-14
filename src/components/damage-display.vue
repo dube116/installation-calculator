@@ -1,15 +1,11 @@
 <template>
 	<div class="row">
 		<div class="col-sm-12">
-            <emselect @update="enemy_changed"></emselect>
+            <emselect @update="enemyChanged"></emselect>
+            <color-select @update="colorChanged"/>
 		</div>
 		<div class="col-sm-12">
 			<div class="row">
-                <!--
-                <template v-if="canDayAttack">
-                    <damage-table v-bind:info="info" v-bind:type="dayAttackTypes[0]"/>
-                </template> 
-                -->
                 <template v-for="(attackType, index) in dayAttackTypes" v-bind:key="index">
                     <template v-if="canDayAttack(index)">
                         <damage-table v-bind:info="info" v-bind:type="attackType"/>
@@ -27,12 +23,16 @@
 	</div>
 </template>
 <script>
+import colorSelect from './color-select.vue'
 import emselect from './emselect.vue'
 import damageTable from './damage-table.vue'
 
 export default {
 	data () {
-		return {			
+		return {
+            settings: {
+                colorMode: 0,
+            },           	
 			dayAttackTypes:[
 				{"id": 0, "text": "日戰 普通攻擊",  "day": true, pre: 1, post: 1, times: 1},
 				{"id": 1, "text": "日戰 二連",  "day": true, pre: 1, post: 1.2, times: 2},
@@ -49,6 +49,7 @@ export default {
 	},
 	props: ['shipInfo', 'fleetInfo'],
 	components: {
+        colorSelect,
         emselect,
 		damageTable
 	},
@@ -150,9 +151,10 @@ export default {
         'info': function () {
             let re = {}
             re.enemy = this.enemyInfo
+            re.eq = this.equipmentInfo
             re.fleet = this.fleetInfo
             re.ship = this.shipInfo
-            re.eq = this.equipmentInfo
+            re.settings = this.settings
             return re
         }
 	},
@@ -183,7 +185,10 @@ export default {
         'canNightAttack': function () {
             return this.fleetInfo.fleetType%2==0
         },
-        enemy_changed: function (val){
+        'colorChanged': function (val){
+            this.settings.colorMode = val
+        },
+        'enemyChanged': function (val){
             this.enemyInfo = val
         }
     }

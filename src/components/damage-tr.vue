@@ -1,8 +1,8 @@
 <template>
 	<tr>
-		<th scope="row" class="row-head">{{ title+(times>1?'('+times+'回攻擊)':'') }}</th>
+		<th scope="row" class="row-head">{{ title+((times>1&&!day)?'('+times+'回攻擊)':'') }}</th>
 		<template v-for="(p, index) in power" v-bind:key="index">
-			<damageTd v-bind:ammo="ammo" v-bind:armor="enemy.armor" v-bind:hp="enemy.hp" v-bind:power="p" v-bind:times="times"/>
+			<damage-td  v-bind:settings="settings" v-bind:ammo="ammo" v-bind:armor="enemy.armor" v-bind:hp="enemy.hp" v-bind:power="p" v-bind:times="times"/>
 		</template>
 	</tr>
 </template>
@@ -11,7 +11,7 @@
 import damageTd from './damage-td.vue'
 
 export default {
-	props: ['ammo', 'enemy', 'power', 'times', 'title'],
+	props: ['ammo', 'day', 'enemy', 'power', 'times', 'title', 'settings'],
 	components: {
 		damageTd
 	}

@@ -81,6 +81,9 @@ export default {
             }
 		}
 	},
+    created: function () {
+        this.$emit('update', this.fleetInfo)
+    },
 	methods: {
 		ftypeChange: function () {
 			if(this.fleetInfo.fleetType==0){
