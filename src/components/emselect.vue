@@ -196,7 +196,7 @@ export default {
                     "text":"港灣棲姬",
                     "stat":[
                         {"text":"I  (4-3 4-5)", "hp":380, "armor":135},
-                        {"text":"II (4-5 最終)", "hp":490, "armor":177}
+                        {"text":"II (4-5 最終)", "hp":490, "armor":183}
                     ],
                     "effect": effects['soft']
                 },
@@ -235,7 +235,7 @@ export default {
                 {
                     "text":"離島棲姬",
                     "stat":[
-                        {"text":"I (6-4)", "hp":480, "armor":190},
+                        {"text":"I (6-4)", "hp":480, "armor":194},
                     ],
                     "effect": effects['hard']
                 },
@@ -248,6 +248,15 @@ export default {
                         {"text":"IV  (3-5 最終)", "hp":390, "armor":140},
                         {"text":"V   (3-5 弱)", "hp":300, "armor":110},
                         {"text":"VI  (3-5 弱 最終)", "hp":390, "armor":125},
+                    ],
+                    "effect": effects['soft']
+                },
+                {
+                    "text":"リコリス棲姫",
+                    "stat":[
+                        {"text":"I", "hp":600, "armor":100},
+                        {"text":"II", "hp":640, "armor":120},
+                        {"text":"III", "hp":680, "armor":140},
                     ],
                     "effect": effects['soft']
                 },
