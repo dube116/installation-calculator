@@ -111,7 +111,7 @@ export default {
                     a6*= eff[id].a6[n]
                 }
             }
-            let calc_cr_a = function(id, n){
+            let calc_cr_add = function(id, n){
                 if(eff[id] == undefined) return
                 if(eff[id].b13 == undefined) return
                 while(n--){
@@ -150,12 +150,18 @@ export default {
             if(eq.tank_11th > 0){
                 calc_a13(230, eq.tank_11th)
                 calc_a6(230, eq.tank_11th)
-                calc_cr_a(230, eq.tank_11th)
+                calc_cr_add(230, eq.tank_11th)
             }
             if(eq.M4A1 > 0){
                 calc_a13(355, eq.M4A1)
                 calc_a6(355, eq.M4A1)
-                calc_cr_a(355, eq.M4A1)
+                calc_cr_add(355, eq.M4A1)
+            }
+            if(eq.soukoutei > 0 || eq.armed > 0){
+                if (this.type.day) { // 夜戰無倍率
+                    calc_a13(408, eq.soukoutei + eq.armed)
+                }
+                calc_a6(408, eq.soukoutei + eq.armed)
             }
             if(eq.type_2 > 0){
                 calc_a13(167, eq.type_2)
@@ -221,10 +227,33 @@ export default {
                 /*if(eff.other.a13!=undefined){
                 }*/
             }
-            a13*= (eq.M4A1 > 0 ? 1.4 : 1)
-            b13+= (eq.M4A1 > 0 ? 1.4 : 1) * crafts_add
-            fp = fp*get_a12(this.info.ship.shipType)+get_b12(this.info.ship.shipType)
-            fp = fp*a13+b13
+            fp = fp * get_a12(this.info.ship.shipType) + get_b12(this.info.ship.shipType)
+            fp*= a13 
+            fp+= crafts_add
+            let A = eq.armed
+            let B = eq.soukoutei
+            let C = eq.daihatsu + eq.toku + eq.type_89
+            let D = eq.tank_11th + eq.type_2
+            let E = eq.M4A1
+            
+            if (A + B == 1 && C + D > 0) {
+                fp*= 1.2
+                b13+=10
+            } else if (A > 0 && B > 0 && C == 1 && D == 0) {
+                fp*= 1.2 * 1.1
+                b13+=12
+            } else if (A > 0 && B > 0 && C == 0 && D == 1) {
+                fp*= 1.2 * 1.2
+                b13+=13
+            } else if (A > 0 && B > 0 && C + D > 1) {
+                fp*= 1.2 * 1.3
+                b13+=15
+            }            
+            if (E > 0) {
+                fp*= 1.4
+            }
+            fp+= b13
+
             let s
             if(this.type.day){
                 s = [[],[],[],[]]
