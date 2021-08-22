@@ -196,7 +196,7 @@ export default {
                         {"text":"壞I", "hp":440, "armor":44},
                         {"text":"壞II", "hp":1200, "armor":166},
                         {"text":"壞III", "hp":3200, "armor":199},
-                        {"text":"壞III", "hp":4800, "armor":222}
+                        {"text":"壞IV", "hp":4800, "armor":222}
                     ],
                     "effect": effects['supply']
                 },
