@@ -187,7 +187,7 @@ export default {
                     "effect": effects['supply']
                 },
                 {
-                    "text":"集積地棲姫II バカンスmode",
+                    "text":"集積地棲姫 II バカンスmode",
                     "stat":[
                         {"text":"I", "hp":440, "armor":22},
                         {"text":"II", "hp":1200, "armor":133},
@@ -195,7 +195,7 @@ export default {
                         {"text":"IV", "hp":4800, "armor":199},
                         {"text":"壞I", "hp":440, "armor":44},
                         {"text":"壞II", "hp":1200, "armor":166},
-                        {"text":"壞III", "hp":3200, "armor":199}
+                        {"text":"壞III", "hp":3200, "armor":199},
                         {"text":"壞III", "hp":4800, "armor":222}
                     ],
                     "effect": effects['supply']
