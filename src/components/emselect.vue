@@ -241,6 +241,18 @@ export default {
                     "effect": effects['harbourSummer']
                 },
                 {
+                    "text":"港灣夏姬 II",
+                    "stat":[
+                        {"text":"I", "hp":750, "armor":14},
+                        {"text":"II", "hp":1050, "armor":186},
+                        {"text":"III", "hp":1550, "armor":226},
+                        {"text":"壞I", "hp":750, "armor":18},
+                        {"text":"壞II", "hp":1050, "armor":216},
+                        {"text":"壞III", "hp":1550, "armor":246}
+                    ],
+                    "effect": effects['harbourSummer']
+                },
+                {
                     "text":"離島棲鬼",
                     "stat":[
                         {"text":"I", "hp":450, "armor":150},
