@@ -43,7 +43,7 @@ export default {
 			],
             nightAttackType:{"id": 1000, "text": "夜戰", "day": false, pre: 1, post: 1},
 			eq_id: [],
-            landing_crafts_iist: [68, 166, 193, 230, 355, 408, 409],
+            landing_crafts_iist: [68, 166, 193, 230, 355, 408, 409, 436, 449],
             enemyInfo: {}
 		}
 	},
@@ -79,6 +79,8 @@ export default {
             re.M4A1 = 0
             re.soukoutei = 0
             re.armed = 0
+            re.panzerII = 0
+            re.type_1 = 0
             re.type_2 = 0
             re.type_2_imp = 0
             
@@ -91,7 +93,7 @@ export default {
                     re.landing_crafts_imp += parseInt(item.imp)
                     if(item.id == 68){
                         re.daihatsu++
-                        return;
+                        return
                     }
                     else if(item.id == 166){
                         re.type_89++
@@ -110,6 +112,14 @@ export default {
                     }
                     else if(item.id == 409){
                         re.armed++
+                    }
+                    else if(item.id == 436){
+                        re.panzerII++
+                    }
+                    else if(item.id == 449){
+                        re.type_89++
+                        re.type_1++
+                        re.tank_11th++
                     }
                 }
                 else if(item.id == 167){
