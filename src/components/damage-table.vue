@@ -281,7 +281,7 @@ export default {
             fp+= b2
             fp*= a3
             fp+= b3
-            console.log([a1, b1, a2, b2, a3, b3, a4])
+            // console.log([a1, b1, a2, b2, a3, b3, a4])
 
             let s
             if(this.type.day){

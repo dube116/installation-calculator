@@ -178,6 +178,18 @@ export default {
                     "effect": effects['supply']
                 },
                 {
+                    "text":"集積地棲姬 III",
+                    "stat":[
+                        {"text":"I", "hp":900, "armor":14},
+                        {"text":"II", "hp":2000, "armor":126},
+                        {"text":"III", "hp":6000, "armor":192},
+                        {"text":"壞I", "hp":900, "armor":25},
+                        {"text":"壞II", "hp":2000, "armor":147},
+                        {"text":"壞III", "hp":6000, "armor":225}
+                    ],
+                    "effect": effects['supply']
+                },
+                {
                     "text":"集積地夏姬",
                     "stat":[
                         {"text":"I", "hp":690, "armor":133},
