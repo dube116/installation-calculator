@@ -180,7 +180,7 @@ export default {
                 {
                     "text":"集積地棲姬 III",
                     "stat":[
-                        {"text":"I", "hp":900, "armor":14},
+                        {"text":"I", "hp":900, "armor":16},
                         {"text":"II", "hp":2000, "armor":126},
                         {"text":"III", "hp":6000, "armor":192},
                         {"text":"壞I", "hp":900, "armor":25},
