@@ -16,6 +16,12 @@
             </div>
             <input type="number" class="form-control" max="999" v-model="base_fp">
         </div>
+        <div class="input-group" v-if="enableTorp">
+            <div class="input-group-prepend">
+                <span class="input-group-text">面板雷裝</span>
+            </div>
+            <input type="number" class="form-control" max="999" v-model="torp">
+        </div>
         <div class="input-group" v-if="!(fleetInfo.fleetType%2==0&&fleetInfo.fleetType!=0&&fleetInfo.enemyFleetType==1)">
             <div class="input-group-prepend">
                 <span class="input-group-text">基本攻擊力(日)</span>
@@ -44,7 +50,12 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">cap後倍率</span>
             </div>
-            <input type="number" class="form-control" max="999" v-model="shipInfo.post">
+            <input type="number" class="form-control" min="1" max="999" step="0.01" title="戰艦特攻、倍卡、削甲乘算" v-model="shipInfo.post">
+        </div><div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">cap後加算</span>
+            </div>
+            <input type="number" class="form-control" min="0" max="999" title="削甲加算" v-model="shipInfo.postAdd">
         </div><br>
         <eqselect v-for="n in 6" @update="eqChanged" v-bind:key="n" v-bind:ord="n"></eqselect>
     <br>
@@ -57,8 +68,8 @@ export default {
 	data () {
 		return {
             eqlist: {
-                id: [9999,68,166,436,193,230,449,355,408,409,167,35,36,126,346,347,348,349,10001,10002,10003,10,12,10004,10005,10006,10007,10008,10009,10010,10011,10012,10013,10014,0],
-                fac: [[0,0],[1,1],[1,1],[0,0],[1,1],[1,1],[0,0],[0,0],[1,1],[1,1],[1,1],[1,1],[1,1],[0,0],[0.75,0],[0.75,0],[1,1],[0,0],[1,1],[1,1],[1.5,1],[0.2,0.2],[0.3,0.3],[1,1],[0,1],[1,0],[0,0],[0,0],[0,0],[0,0],[0.75,0],[0.75,0],[1,1],[1,1],[0,0]]
+                id: [9999,68,166,436,193,230,449,482,355,408,409,167,35,36,126,348,349,346,347,10001,10002,10003,10,12,10004,10005,41,10006,10007,10008,10009,10010,10011,10012,10013,10014,10015,129,0],
+                fac: [[0,0],[1,1],[1,1],[0,0],[1,1],[1,1],[0,0],[0,0],[0,0],[1,1],[1,1],[1,1],[1,1],[1,1],[0,0],[1,1],[0,0],[0.75,0],[0.75,0],[1,1],[1,1],[1.5,1],[0.2,0.2],[0.3,0.3],[1,1],[0,1],[0,1],[1,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0.75,0],[0.75,0],[1,1],[1,1],[1,1],[0,0]]
             },	
             fleetTypes: [
                 {text: "單艦隊", add: [0, 5]},
@@ -76,6 +87,7 @@ export default {
                 {text: "其他", val: 99}
             ],
             base_fp: 10,
+            torp: 0,
             max_ammo : 20,
             now_ammo : 20,
             shipInfo: {
@@ -91,6 +103,7 @@ export default {
                     {ord: 6, id: 0, imp: 0}
                 ],
                 post: 1,
+                postAdd: 0,
                 shipType: 0
             }
 		}
@@ -117,6 +130,9 @@ export default {
             const eqlist = this.eqlist
 			let dfp = parseInt(this.base_fp)+5
 			let nfp = parseInt(this.base_fp)
+            if (this.enableTorp) {
+                nfp += parseInt(this.torp)
+            }
 			dfp += this.fleetTypes[this.fleetInfo.fleetType].add[this.fleetInfo.enemyFleetType?1:0]
 			this.shipInfo.equipments.forEach(function(item){
 				let id = eqlist.id.indexOf(item.id)
@@ -139,9 +155,17 @@ export default {
             this.$emit('update', this.shipInfo)
         }
 	},
-	props: ['fleetInfo'],
+	props: ['fleetInfo', 'enableTorp'],
     watch: {
         'base_fp': function (){
+            this.fpCalc()
+            this.$emit('update', this.shipInfo)
+        },
+        'torp': function (){
+            this.fpCalc()
+            this.$emit('update', this.shipInfo)
+        },
+        'enableTorp': function (){
             this.fpCalc()
             this.$emit('update', this.shipInfo)
         },
@@ -166,6 +190,9 @@ export default {
             this.$emit('update', this.shipInfo)
         },
         'shipInfo.post': function (){
+            this.$emit('update', this.shipInfo)
+        },
+        'shipInfo.postAdd': function (){
             this.$emit('update', this.shipInfo)
         },
     }

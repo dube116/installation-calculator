@@ -39,15 +39,17 @@ export default {
 				{"id": 2, "text": "日戰 主砲觀測",  "day": true, pre: 1, post: 1.5, times: 1},
 				{"id": 3, "text": "日戰 主徹觀測",  "day": true, pre: 1, post: 1.3, times: 1},
 				{"id": 4, "text": "日戰 主電觀測",  "day": true, pre: 1, post: 1.2, times: 1},
-				{"id": 5, "text": "日戰 主副觀測",  "day": true, pre: 1, post: 1.1, times: 1}
+				{"id": 5, "text": "日戰 主副觀測",  "day": true, pre: 1, post: 1.1, times: 1},
+				{"id": 6, "text": "日戰 瑞雲立體",  "day": true, pre: 1, post: 1.35, times: 1, tips:"僅伊勢級改二+瑞雲可發動"},
+				{"id": 7, "text": "日戰 海空立體",  "day": true, pre: 1, post: 1.3, times: 1, tips:"僅伊勢級改二+六三四空艦爆可發動"}
 			],
             nightAttackType:{"id": 1000, "text": "夜戰", "day": false, pre: 1, post: 1},
 			eq_id: [],
-            landing_crafts_iist: [68, 166, 193, 230, 355, 408, 409, 436, 449],
+            landing_crafts_iist: [68, 166, 193, 230, 355, 408, 409, 436, 449, 482],
             enemyInfo: {}
 		}
 	},
-	props: ['shipInfo', 'fleetInfo'],
+	props: ['shipInfo', 'fleetInfo', 'enableTorp'],
 	components: {
         colorSelect,
         emselect,
@@ -60,15 +62,15 @@ export default {
             re.has_type_3 = false
             re.has_AP = false
             re.has_radar = false
-            re.has_seaplane = false
             re.has_spotplane = false
-            re.has_DB = false
             
             re.WG42 = 0
             re.AGRL = 0
             re.AGRL_con = 0
             re.motar = 0
             re.motar_con = 0
+            re.seaplane = 0
+            re.DB = 0
             
             re.landing_crafts = 0
             re.landing_crafts_imp = 0
@@ -80,12 +82,14 @@ export default {
             re.soukoutei = 0
             re.armed = 0
             re.panzerII = 0
+            re.panzerIII = 0
             re.type_1 = 0
             re.type_2 = 0
             re.type_2_imp = 0
             
             re.main_gun = 0
             re.secd_gun = 0
+            re.torp = 0
             
             this.shipInfo.equipments.forEach(function(item){
                 if(lcl.indexOf(item.id)!=-1){
@@ -121,6 +125,9 @@ export default {
                         re.type_1++
                         re.tank_11th++
                     }
+                    else if(item.id == 482){
+                        re.panzerIII++
+                    }
                 }
                 else if(item.id == 167){
                     re.type_2++
@@ -136,14 +143,17 @@ export default {
                     re.has_radar = true
                 }        
                 else if(item.id == 10008){
-                    re.has_seaplane = true
+                    re.seaplane++
                 }
                 else if(item.id == 10009){
-                    re.has_seaplane = true
+                    re.seaplane++
                     re.has_spotplane = true
                 }
                 else if(item.id == 10010){
                     re.has_spotplane = true
+                }
+                else if(item.id == 10011){
+                    re.DB++
                 }
                 else if(item.id == 126){
                     re.WG42++
@@ -166,11 +176,15 @@ export default {
                 else if(item.id == 10||item.id == 12||item.id == 10004){
                     re.secd_gun++
                 }
+                else if(item.id == 10005){
+                    re.torp++
+                }
             })
             return re
         },
         'info': function () {
             let re = {}
+            re.torp = this.enemyInfo.enableTorp
             re.enemy = this.enemyInfo
             re.eq = this.equipmentInfo
             re.fleet = this.fleetInfo
@@ -201,6 +215,12 @@ export default {
             if (index == 5) {
                 return common && (this.equipmentInfo.main_gun > 0) && (this.equipmentInfo.secd_gun > 0)
             }
+            if (index == 6) {
+                return day && (this.equipmentInfo.main_gun > 0) && (this.equipmentInfo.seaplane > 1)
+            }
+            if (index == 7) {
+                return day && (this.equipmentInfo.main_gun > 0) && (this.equipmentInfo.DB > 1) && (this.equipmentInfo.seaplane < 2)
+            }
             return false
         },
         'canNightAttack': function () {
@@ -211,6 +231,7 @@ export default {
         },
         'enemyChanged': function (val){
             this.enemyInfo = val
+            this.$emit('enemyChanged', val)
         }
     }
 }

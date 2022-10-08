@@ -1,16 +1,19 @@
 <template>
 	<div class="container-fluid">
-        <h4>艦これ 試製對陸計算機一號乙型改七</h4>
+        <h4>艦これ 試製對陸計算機一號丙型</h4>
         <div class="row">
             <div class="col-md-3">
-                <shipData @update="shipChanged" v-bind:fleetInfo="fleetInfo"></shipData>
+                <shipData @update="shipChanged" v-bind:fleetInfo="fleetInfo" v-bind:enableTorp="enableTorp"></shipData>
                 <fleetData @update="fleetChanged"></fleetData>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#future">
                     更新紀錄
                 </button>
+                <button type="button" class="btn btn-primary ml-1" data-toggle="modal" data-target="#references">
+                    參考資料
+                </button>
             </div>     
             <div class="col-md-9">
-                <damageDisplay v-bind:shipInfo="shipInfo" v-bind:fleetInfo="fleetInfo"/>
+                <damageDisplay @enemyChanged="enemyChanged" v-bind:shipInfo="shipInfo" v-bind:fleetInfo="fleetInfo"/>
             </div>
         </div>   
     </div>
@@ -24,6 +27,7 @@ import shipData from './components/ship-data.vue'
 export default {
 	data () {
 		return {
+            enableTorp: false,
 			fleetInfo: {
                 fleetType: 0,
                 enemyFleetType: 0,
@@ -43,6 +47,7 @@ export default {
                     {ord: 6, id: 0, imp: 0}
                 ],
                 post: 1,
+                postAdd: 0,
                 shipType: 0
             }
 		}
@@ -53,6 +58,9 @@ export default {
         fleetData
     },
     methods: {
+        enemyChanged: function (val){
+            this.enableTorp = val.enableTorp === true
+        },
         fleetChanged: function (val){
             this.fleetInfo = val
         },
