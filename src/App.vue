@@ -1,6 +1,6 @@
 <template>
 	<div class="container-fluid">
-        <h4>艦これ 試製對陸計算機一號丙型</h4>
+        <h4>艦これ 試製對陸計算機一號丙型改</h4>
         <div class="row">
             <div class="col-md-3">
                 <shipData @update="shipChanged" v-bind:fleetInfo="fleetInfo" v-bind:enableTorp="enableTorp"></shipData>

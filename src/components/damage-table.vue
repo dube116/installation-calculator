@@ -211,6 +211,10 @@ export default {
                 calc_precapMul(166, eq.type_89)
                 calc_postcap(166, eq.type_89)
             }
+            if (eq.type_89_2 > 0) {
+                calc_precapMul('166_2', eq.type_89_2)
+                calc_postcap('166_2', eq.type_89_2)
+            }
             if (eq.panzerII >0 ) {
                 calc_precapMul(436, eq.panzerII)
                 calc_postcap(436, eq.panzerII)
@@ -221,9 +225,9 @@ export default {
                 }
                 calc_postcap(408, eq.soukoutei + eq.armed)
             }
-            if (eq.M4A1 > 0) {
-                calc_precapMul(355, eq.M4A1)
-                calc_postcap(355, eq.M4A1)
+            if (eq.M4A1 > 0 || eq.type_97_kai > 0) {
+                calc_precapMul(355, eq.M4A1 + eq.type_97_kai)
+                calc_postcap(355, eq.M4A1 + eq.type_97_kai)
             }
             if (eq.tank_11th > 0 || eq.panzerIII > 0) { // 一式炮戰車已包含在tank_11th
                 calc_postcap(230, 1)
@@ -273,13 +277,23 @@ export default {
                     precapAdd *= 1.3
                     precapAdd += 42
                 }
+                if (eq.type_97 > 0 ) { //a1 a4在八九式和11連隊計算
+                    precapMul *= 1.4
+                    precapAdd *= 1.4
+                    precapAdd += 28
+                }
+                if (eq.type_97_kai > 0 ) { //a1 a4在八九式和11連隊計算
+                    precapMul *= 1.5
+                    precapAdd *= 1.5
+                    precapAdd += 33
+                }
             }
             // 登陸艇套裝
             if (!this.info.torp) {
                 let A = eq.armed
                 let B = eq.soukoutei
                 let C = eq.daihatsu + eq.toku + eq.type_89 + eq.panzerII // 一式炮戰車已包含在type_89
-                let D = eq.tank_11th + eq.type_2 + eq.panzerIII - eq.type_1 // tank_11th有計算到一式炮戰車
+                let D = eq.tank_11th + eq.type_2 + eq.panzerIII - eq.type_1 + eq.type_97 + eq.type_97_kai // tank_11th有計算到一式炮戰車
                 
                 if (A + B == 1 && C + D > 0) {
                     precapMul *= 1.2
