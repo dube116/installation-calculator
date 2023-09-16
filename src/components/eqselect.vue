@@ -26,12 +26,13 @@ export default {
 			eqlist: [
                 {"text":"其他無關裝備","value":9999,"imp":false,"title":""},
                 {"text":"大發動艇","value":68,"imp":true,"title":""},
-                {"text":"大発動艇(八九式中戦車)","value":166,"imp":true,"title":""},
-                {"text":"大發動艇(II號戰車)","value":436,"imp":false,"title":""},
+                {"text":"大發動艇(八九式中戦車)","value":166,"imp":true,"title":""},
+                {"text":"大發動艇(II號戰車/北非仕樣)","value":436,"imp":false,"title":""},
                 {"text":"特大發","value":193,"imp":true,"title":""},
                 {"text":"特大發＋11連隊","value":230,"imp":true,"title":""},
                 {"text":"特大發＋一式砲戰車","value":449,"imp":false,"title":""},
-                {"text":"特大發＋III號戰車","value":482,"imp":false,"title":""},
+                {"text":"特大發＋III號戰車(北非仕樣)","value":482,"imp":false,"title":""},
+                {"text":"特大發＋III號戰車J型","value":514,"imp":true,"title":""},
                 {"text":"特大發＋チハ","value":494,"imp":false,"title":""},
                 {"text":"特大發＋チハ改","value":495,"imp":false,"title":""},
                 {"text":"M4A1 DD","value":355,"imp":false,"title":""},
@@ -46,6 +47,8 @@ export default {
                 {"text":"迫擊砲","value":346,"imp":true,"title":""},
                 {"text":"迫擊砲集中配備","value":347,"imp":true,"title":""},
                 {"text":"小口徑主砲","value":10001,"imp":true,"title":""},
+                {"text":"12.7cm連装砲D型改二","value":267,"imp":true,"title":""},
+                {"text":"12.7cm連装砲D型改三","value":366,"imp":true,"title":""},
                 {"text":"中口徑主砲","value":10002,"imp":true,"title":""},
                 {"text":"大口徑主砲","value":10003,"imp":true,"title":""},
                 {"text":"8cm/10cm/12.7cm高角炮(副炮)","value":10,"imp":true,"title":"8cm高角砲(改＋増設機銃)、10cm連装高角砲改＋増設機銃、10cm連装高角砲群 集中配備、12.7cm連装高角砲"},
@@ -57,6 +60,7 @@ export default {
                 {"text":"電探","value":10007,"imp":false,"title":""},
                 {"text":"水上戰鬥機","value":10008,"imp":false,"title":""},
                 {"text":"水上爆擊機","value":10009,"imp":false,"title":""},
+                {"text":"夜戰瑞雲","value":490,"imp":false,"title":""},
                 {"text":"水上偵察機","value":10010,"imp":false,"title":""},
                 {"text":"艦上爆擊機","value":10011,"imp":false,"title":""},
                 {"text":"聲納","value":10012,"imp":true,"title":""},
@@ -65,7 +69,7 @@ export default {
                 {"text":"探照燈","value":10015,"imp":true,"title":""},
                 {"text":"熟練見張員","value":129,"imp":true,"title":""}
 			],
-			eq_id: [9999,68,166,436,193,230,449,482,494,495,355,408,409,167,35,36,126,348,349,346,347,10001,10002,10003,10,12,10004,10005,41,10006,10007,10008,10009,10010,10011,10012,10013,10014,10015,129],
+			eq_id: [9999,68,166,436,193,230,449,482,514,494,495,355,408,409,167,35,36,126,348,349,346,347,10001,267,366,10002,10003,10,12,10004,10005,41,10006,10007,10008,10009,490,10010,10011,10012,10013,10014,10015,129],
             equipment: {
                 id: 0, 
                 imp: 0

@@ -45,7 +45,7 @@ export default {
 			],
             nightAttackType:{"id": 1000, "text": "夜戰", "day": false, pre: 1, post: 1},
 			eq_id: [],
-            landing_crafts_iist: [68, 166, 193, 230, 355, 408, 409, 436, 449, 482, 494, 495],
+            landing_crafts_iist: [68, 166, 193, 230, 355, 408, 409, 436, 449, 482, 494, 495, 514],
             enemyInfo: {}
 		}
 	},
@@ -70,14 +70,16 @@ export default {
             re.motar = 0
             re.motar_con = 0
             re.seaplane = 0
-            re.DB = 0
+            re.night_seaplane = 0
+            re.divebomber = 0
+            re.type_2 = 0
+            re.type_2_imp = 0
             
-            re.landing_crafts = 0
+            re.landing_crafts_count = 0
             re.landing_crafts_imp = 0
             re.daihatsu = 0
             re.toku = 0
             re.type_89 = 0
-            re.type_89_2 = 0
             re.type_97 = 0
             re.type_97_kai = 0
             re.tank_11th = 0
@@ -86,60 +88,59 @@ export default {
             re.armed = 0
             re.panzerII = 0
             re.panzerIII = 0
+            re.panzerIIIJ = 0
             re.type_1 = 0
-            re.type_2 = 0
-            re.type_2_imp = 0
             
             re.main_gun = 0
             re.secd_gun = 0
             re.torp = 0
+            re.gun_d2 = 0
+            re.gun_d3 = 0
             
             this.shipInfo.equipments.forEach(function(item){
                 if(lcl.indexOf(item.id)!=-1){
-                    re.landing_crafts++
+                    re.landing_crafts_count++
                     re.landing_crafts_imp += parseInt(item.imp)
-                    if(item.id == 68){
-                        re.daihatsu++
-                        return
-                    }
-                    else if(item.id == 166){
-                        re.type_89++
-                        re.type_89_2++
-                    }
-                    else if(item.id == 193){
-                        re.toku++
-                    }
-                    else if(item.id == 230){
-                        re.tank_11th++
-                    }
-                    else if(item.id == 355){
-                        re.M4A1++
-                    }
-                    else if(item.id == 408){
-                        re.soukoutei++
-                    }
-                    else if(item.id == 409){
-                        re.armed++
-                    }
-                    else if(item.id == 436){
-                        re.panzerII++
-                    }
-                    else if(item.id == 449){
-                        re.type_89++
-                        re.type_89_2++
-                        re.type_1++
-                        re.tank_11th++
-                    }
-                    else if(item.id == 482){
-                        re.panzerIII++
-                    }
-                    else if(item.id == 494){
-                        re.type_89_2++
-                        re.type_97++
-                    }
-                    else if(item.id == 495){
-                        re.type_89_2++
-                        re.type_97_kai++
+                    switch(item.id) {
+                        case 68:
+                            re.daihatsu++
+                            break
+                        case 166:
+                            re.type_89++
+                            break
+                        case 193:
+                            re.toku++
+                            break
+                        case 230:
+                            re.tank_11th++
+                            break
+                        case 355:
+                            re.M4A1++
+                            break
+                        case 408:
+                            re.soukoutei++
+                            break
+                        case 409:
+                            re.armed++
+                            break
+                        case 436:
+                            re.panzerII++
+                            break
+                        case 449:
+                            re.type_1++
+                            break
+                        case 482:
+                            re.panzerIII++
+                            break
+                        case 494:
+                            re.type_97++
+                            break
+                        case 495:
+                            re.type_97_kai++
+                            break
+                        case 514:
+                            re.panzerIIIJ++
+                            break
                     }
                 }
                 else if(item.id == 167){
@@ -158,15 +159,18 @@ export default {
                 else if(item.id == 10008){
                     re.seaplane++
                 }
-                else if(item.id == 10009){
+                else if(item.id == 10009 || item.id == 490){
                     re.seaplane++
                     re.has_spotplane = true
+                    if (item.id == 490) {
+                        re.night_seaplane++
+                    }
                 }
                 else if(item.id == 10010){
                     re.has_spotplane = true
                 }
                 else if(item.id == 10011){
-                    re.DB++
+                    re.divebomber++
                 }
                 else if(item.id == 126){
                     re.WG42++
@@ -183,8 +187,13 @@ export default {
                 else if(item.id == 349){
                     re.AGRL_con++
                 }
-                else if(item.id == 10001||item.id == 10002||item.id == 10003){
+                else if(item.id == 10001||item.id == 267||item.id == 366||item.id == 10002||item.id == 10003){
                     re.main_gun++
+                    if (item.id == 267) {
+                        re.gun_d2++
+                    } else if (item.id == 366) {
+                        re.gun_d3++
+                    }
                 }
                 else if(item.id == 10||item.id == 12||item.id == 10004){
                     re.secd_gun++
@@ -223,7 +232,7 @@ export default {
                 return common && (this.equipmentInfo.main_gun > 0) && (this.equipmentInfo.secd_gun > 0) && this.equipmentInfo.has_AP
             }
             if (index == 4) {
-                return common && (this.equipmentInfo.main_gun > 0) && this.equipmentInfo.has_radar
+                return common && (this.equipmentInfo.main_gun > 0) && (this.equipmentInfo.secd_gun > 0) && this.equipmentInfo.has_radar
             }
             if (index == 5) {
                 return common && (this.equipmentInfo.main_gun > 0) && (this.equipmentInfo.secd_gun > 0)
@@ -232,7 +241,7 @@ export default {
                 return day && (this.equipmentInfo.main_gun > 0) && (this.equipmentInfo.seaplane > 1)
             }
             if (index == 7) {
-                return day && (this.equipmentInfo.main_gun > 0) && (this.equipmentInfo.DB > 1) && (this.equipmentInfo.seaplane < 2)
+                return day && (this.equipmentInfo.main_gun > 0) && (this.equipmentInfo.divebomber > 1)
             }
             return false
         },

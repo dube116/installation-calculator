@@ -20,7 +20,7 @@ export default {
 
 <style>
 th.row-head{
-	width: 150px;
+	width: 180px;
 	vertical-align: middle;
 }
 </style>

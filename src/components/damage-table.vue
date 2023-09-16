@@ -2,6 +2,11 @@
     <div class="col-xl-6">
         <h4>{{ type.text+(type.times>1?'('+type.times+'回攻擊)':'')+(type.post>1?'('+type.post+'倍攻擊)':'') }}</h4>
         <h5 v-if="type.tips">{{ type.tips }}</h5>
+        <template v-if="localtips.length > 0">
+            <template v-for="(obj, index) in localtips" v-bind:key="index">
+                <h5 >{{ obj }}</h5>
+            </template>
+        </template>
         <table class="table table-borderless damage-table"> 
             <thead>
                 <tr>
@@ -36,27 +41,27 @@ export default {
             dev: false,
             engage: ["T有利", "同航", "反航", "T不利"],
             night_attck_type: [
-                {
+                { // 0
                     "text": "普攻", 
                     "times": 1
                 },
-                {
+                { // 1
                     "text": "二連", 
                     "times": 2
                 },
-                {
+                { // 2
                     "text": "砲雷CI", 
                     "times": 2
                 },
-                {
+                { // 3
                     "text": "雷CI", 
                     "times": 2
                 },
-                {
+                { // 4
                     "text": "主副CI", 
                     "times": 1
                 },
-                {
+                { // 5
                     "text": "主砲CI", 
                     "times": 1
                 },
@@ -64,14 +69,26 @@ export default {
                     "text": "夜襲CI", 
                     "times": 1
                 },
-                { // 沒做
+                { // 7
                     "text": "主魚電CI", 
                     "times": 1
+                },
+                { // 8
+                    "text": "主魚電CI", 
+                    "times": 2
                 },
                 { // 沒做
                     "text": "魚見電CI", 
                     "times": 1
                 },
+                { // 沒做
+                    "text": "魚見電CI", 
+                    "times": 2
+                },
+                { // 11
+                    "text": "夜戰瑞雲CI",
+                    "times": 1
+                }
             ],
             damaged_mul: [1, 0.7, 0.4],
             engage_mul: [1.2, 1.0, 0.8, 0.6],
@@ -81,6 +98,17 @@ export default {
                 347: {"precap":[60, 50, 40, 30, 0, 0]},
                 348: {"precap":[55, 60, 45, 30, 0, 0]},
                 349: {"precap":[80, 90, 60, 30, 0, 0]}
+            },
+            land_craft_type: {
+                "B": ['toku', 'panzerIII', 'panzerIIIJ'],
+                "C": ['type_1', 'type_89', 'panzerIII', 'panzerIIIJ'],
+                "DD": ['type_1', 'type_89', 'type_97', 'type_97_kai', 'panzerIII', 'panzerIIIJ'],
+                "E": ['panzerII'],
+                "FF": ['panzerII'],
+                "G": ['soukoutei', 'armed'],
+                "HH": ['soukoutei', 'armed'],
+                "I": ['M4A1', 'type_97_kai', 'panzerIIIJ'],
+                "J": ['tank_11th', 'type_1', 'panzerIII', 'panzerIIIJ'],
             }
         }
     },
@@ -96,6 +124,28 @@ export default {
             else{
                 return 360
             }
+        },
+        'localtips': function (){
+            const result = []
+            let eq = this.info.eq
+
+            if (!this.type.day) {
+                // 主魚電CI
+                if (this.info.ship.shipType == 0){
+                    if (eq.main_gun > 0 && eq.torp > 0 && eq.has_radar){
+                        result.push('主主魚電CI的電探需要索敵>=5')
+                    }
+                }
+                // 夜戰瑞雲CI
+                if (eq.main_gun > 1 && eq.night_seaplane > 0) {
+                    result.push('夜戰瑞雲CI僅輕巡、航巡、航戰、水母可發動')
+                    if (eq.has_radar) {
+                        result.push('夜戰瑞雲CI的電探需要索敵>=5才會提高倍率')
+                    }
+                }
+            }
+
+            return result
         },
         'power_table': function (){
             let eff = this.info.enemy.effect
@@ -185,52 +235,9 @@ export default {
                 calc_precapMul(10008, 1)
                 calc_postcap(10008, 1)
             }
-            if (eq.DB) {
-                calc_precapMul(10011, eq.DB)
-                calc_postcap(10011, eq.DB)
-            }
-            if (eq.landing_crafts > 0) {
-                calc_precapMul(68, eq.landing_crafts)
-                calc_postcap(68, eq.landing_crafts)
-                if (eff["land_craft_imp"] != undefined) {
-                    if (eff["land_craft_imp"].precap == true) {
-                        precapMul *= 1 + eq.landing_crafts_imp / eq.landing_crafts / 50
-                        precapMul = parseFloat(precapMul.toPrecision(15))
-                    }
-                    if (eff["land_craft_imp"].postcap == true) {
-                        postcapMul *= 1 + eq.landing_crafts_imp / eq.landing_crafts / 50
-                        postcapMul = parseFloat(postcapMul.toPrecision(15))
-                    }
-                }
-            }
-            if (eq.toku > 0) {
-                calc_precapMul(193, eq.toku)
-                calc_postcap(193, eq.toku)
-            }
-            if (eq.type_89 > 0) {
-                calc_precapMul(166, eq.type_89)
-                calc_postcap(166, eq.type_89)
-            }
-            if (eq.type_89_2 > 0) {
-                calc_precapMul('166_2', eq.type_89_2)
-                calc_postcap('166_2', eq.type_89_2)
-            }
-            if (eq.panzerII >0 ) {
-                calc_precapMul(436, eq.panzerII)
-                calc_postcap(436, eq.panzerII)
-            }
-            if (eq.soukoutei > 0 || eq.armed > 0) {
-                if (this.type.day) { // 夜戰無倍率
-                    calc_precapMul(408, eq.soukoutei + eq.armed)
-                }
-                calc_postcap(408, eq.soukoutei + eq.armed)
-            }
-            if (eq.M4A1 > 0 || eq.type_97_kai > 0) {
-                calc_precapMul(355, eq.M4A1 + eq.type_97_kai)
-                calc_postcap(355, eq.M4A1 + eq.type_97_kai)
-            }
-            if (eq.tank_11th > 0 || eq.panzerIII > 0) { // 一式炮戰車已包含在tank_11th
-                calc_postcap(230, 1)
+            if (eq.divebomber) {
+                calc_precapMul(10011, eq.divebomber)
+                calc_postcap(10011, eq.divebomber)
             }
             if (eq.type_2 > 0) {
                 calc_precapMul(167, eq.type_2)
@@ -244,6 +251,33 @@ export default {
                         postcapMul = parseFloat(postcapMul.toPrecision(15))
                 }
             }
+            // 登陸艇
+            if (eq.landing_crafts_count > 0) {
+                calc_precapMul('A', 1)
+                calc_postcap('A', 1)
+                if (eff["land_craft_imp"] != undefined) {
+                    if (eff["land_craft_imp"].precap == true) {
+                        precapMul *= 1 + eq.landing_crafts_imp / eq.landing_crafts_count / 50
+                        precapMul = parseFloat(precapMul.toPrecision(15))
+                    }
+                    if (eff["land_craft_imp"].postcap == true) {
+                        postcapMul *= 1 + eq.landing_crafts_imp / eq.landing_crafts_count / 50
+                        postcapMul = parseFloat(postcapMul.toPrecision(15))
+                    }
+                }
+            }
+            for (const key in this.land_craft_type) {
+                let count = 0
+                this.land_craft_type[key].forEach(function(item){
+                    count += eq[item]
+                })
+                if (count >= key.length) {
+                    if ((key !== 'G' && key != 'HH') || this.type.day) {
+                        calc_precapMul(key, 1)
+                    }
+                    calc_postcap(key, 1)
+                }
+            }
             
             if (eff.other!=undefined) {
                 if (eff.other.postcap!=undefined) {
@@ -252,10 +286,10 @@ export default {
                             case 0:
                                 //集積地 額外cap後 登陸艇改修補正
                                 if (eq.type_89 > 0)
-                                    postcapMul*= 1 + eq.landing_crafts_imp / eq.landing_crafts / 50
+                                    postcapMul*= 1 + eq.landing_crafts_imp / eq.landing_crafts_count / 50
                                     postcapMul = parseFloat(postcapMul.toPrecision(15))
                                 if (eq.panzerII > 0)
-                                    postcapMul*= 1 + eq.landing_crafts_imp / eq.landing_crafts / 50
+                                    postcapMul*= 1 + eq.landing_crafts_imp / eq.landing_crafts_count / 50
                                     postcapMul = parseFloat(postcapMul.toPrecision(15))
                         }
                     })
@@ -263,7 +297,7 @@ export default {
             }
             // 特殊登陸艇
             if (!this.info.torp) {
-                if (eq.tank_11th > 0 || eq.panzerIII > 0) {
+                if (eq.tank_11th > 0 || eq.type_1 > 0 || eq.panzerIII > 0 || eq.panzerIIIJ > 0) {
                     precapMul *= 1.8
                     precapAdd += 25
                 }
@@ -272,17 +306,17 @@ export default {
                     precapAdd *= 1.4
                     precapAdd += 35
                 }
-                if (eq.type_1 > 0 ) { //a1 a4在八九式和11連隊計算
+                if (eq.type_1 > 0 ) {
                     precapMul *= 1.3
                     precapAdd *= 1.3
                     precapAdd += 42
                 }
-                if (eq.type_97 > 0 ) { //a1 a4在八九式和11連隊計算
+                if (eq.type_97 > 0 ) {
                     precapMul *= 1.4
                     precapAdd *= 1.4
                     precapAdd += 28
                 }
-                if (eq.type_97_kai > 0 ) { //a1 a4在八九式和11連隊計算
+                if (eq.type_97_kai > 0 ) {
                     precapMul *= 1.5
                     precapAdd *= 1.5
                     precapAdd += 33
@@ -292,25 +326,25 @@ export default {
             if (!this.info.torp) {
                 let A = eq.armed
                 let B = eq.soukoutei
-                let C = eq.daihatsu + eq.toku + eq.type_89 + eq.panzerII // 一式炮戰車已包含在type_89
-                let D = eq.tank_11th + eq.type_2 + eq.panzerIII - eq.type_1 + eq.type_97 + eq.type_97_kai // tank_11th有計算到一式炮戰車
+                let C = eq.daihatsu + eq.toku + eq.type_89 + eq.panzerII + eq.type_1
+                let D = eq.tank_11th + eq.type_2 + eq.type_97 + eq.type_97_kai + eq.panzerIII
                 
                 if (A + B == 1 && C + D > 0) {
                     precapMul *= 1.2
                     precapAdd *= 1.2
                     precapAdd += 10
                 } else if (A > 0 && B > 0 && C == 1 && D == 0) {
-                    precapMul *= 1.2 * 1.1
-                    precapAdd *= 1.2 * 1.1
-                    precapAdd += 12
-                } else if (A > 0 && B > 0 && C == 0 && D == 1) {
-                    precapMul *= 1.2 * 1.2
-                    precapAdd *= 1.2 * 1.2
-                    precapAdd += 13
-                } else if (A > 0 && B > 0 && C + D > 1) {
-                    precapMul *= 1.2 * 1.3
-                    precapAdd *= 1.2 * 1.3
+                    precapMul *= 1.3
+                    precapAdd *= 1.3
                     precapAdd += 15
+                } else if (A > 0 && B > 0 && C == 0 && D == 1) {
+                    precapMul *= 1.4
+                    precapAdd *= 1.4
+                    precapAdd += 20
+                } else if (A > 0 && B > 0 && C + D > 1) {
+                    precapMul *= 1.5
+                    precapAdd *= 1.5
+                    precapAdd += 25
                 }
             }
             
@@ -338,9 +372,9 @@ export default {
             fp *= precapMul
             fp += precapAdd
 
-            let s
+            let result
             if (this.type.day){
-                s = [[],[],[],[]]
+                result = [[],[],[],[]]
                 for(let i = 0; i < 4; i++){
                     for(let j = 0; j < 3; j++){
                         let precapFirePower = fp*formationMul*this.engage_mul[i]*this.damaged_mul[j]*this.type.pre
@@ -354,50 +388,86 @@ export default {
                         }
                         postcapFirePower *= this.info.ship.post*postcapMul
                         postcapFirePower += Number.parseInt(this.info.ship.postAdd)
-                        s[i].push(postcapFirePower)
+                        result[i].push(postcapFirePower)
                     }
                 }
             }
             else{
-                s = []
-                if (s !== undefined) {
+                result = []
+                if (result !== undefined) {
                     // 平A
-                    s.push({})
-                    s[0].type = 0
-                    s[0].arr = this.getNightAttackArr(fp, postcapMul, 1)
+                    result.push({})
+                    result[0].type = 0
+                    result[0].arr = this.getNightAttackArr(fp, postcapMul, 1)
                 }
                 if (eq.main_gun > 2){
                     // 主砲CI
-                    s.push({})
-                    s[s.length-1].type = 5
-                    s[s.length-1].arr = this.getNightAttackArr(fp, postcapMul, 2)
+                    result.push({})
+                    result[result.length-1].type = 5
+                    result[result.length-1].arr = this.getNightAttackArr(fp, postcapMul, 2)
                 }
-                else if (eq.main_gun > 1 && eq.secd_gun >0){
+                else if (eq.main_gun > 1 && eq.secd_gun > 0){
                     // 主副CI
-                    s.push({})
-                    s[s.length-1].type = 4
-                    s[s.length-1].arr = this.getNightAttackArr(fp, postcapMul, 1.75)
+                    result.push({})
+                    result[result.length-1].type = 4
+                    result[result.length-1].arr = this.getNightAttackArr(fp, postcapMul, 1.75)
                 }
                 else if (eq.torp > 1 && this.info.torp){
                     // 雷CI
-                    s.push({})
-                    s[s.length-1].type = 3
-                    s[s.length-1].arr = this.getNightAttackArr(fp, postcapMul, 1.5)
+                    result.push({})
+                    result[result.length-1].type = 3
+                    result[result.length-1].arr = this.getNightAttackArr(fp, postcapMul, 1.5)
                 }
                 else if (eq.torp > 1 && this.info.torp){
                     // 砲雷CI
-                    s.push({})
-                    s[s.length-1].type = 2
-                    s[s.length-1].arr = this.getNightAttackArr(fp, postcapMul, 1.3)
+                    result.push({})
+                    result[result.length-1].type = 2
+                    result[result.length-1].arr = this.getNightAttackArr(fp, postcapMul, 1.3)
                 }
                 else if (eq.main_gun + eq.secd_gun > 1 && (eq.main_gun * 0.9 + eq.secd_gun * 0.2) < 2){
                     // 二連
-                    s.push({})
-                    s[s.length-1].type = 1
-                    s[s.length-1].arr = this.getNightAttackArr(fp, postcapMul, 1.2)
+                    result.push({})
+                    result[result.length-1].type = 1
+                    result[result.length-1].arr = this.getNightAttackArr(fp, postcapMul, 1.2)
+                }
+                // DD特殊CI 只做主魚電
+                if (this.info.ship.shipType == 0){
+                    if (eq.main_gun > 0 && eq.torp > 0 && eq.has_radar){
+                        // 主魚電CI
+                        let mul = 1.3
+                        if (eq.gun_d2 + eq.gun_d3 > 1) {
+                            mul *= 1.4
+                        } else if (eq.gun_d2 + eq.gun_d3 > 0) {
+                            mul *= 1.25
+                        }
+                        if (eq.gun_d3 > 1) {
+                            mul *= 1.1
+                        } else if (eq.gun_d3 > 0) {
+                            mul *= 1.05
+                        }
+                        result.push({})
+                        result[result.length-1].type = 7
+                        result[result.length-1].arr = this.getNightAttackArr(fp, postcapMul, mul)
+                        result.push({})
+                        result[result.length-1].type = 8
+                        result[result.length-1].arr = this.getNightAttackArr(fp, postcapMul, mul)
+                    }
+                }
+                // 夜戰瑞雲CI
+                if (eq.main_gun > 1 && eq.night_seaplane > 0) {
+                    let mul = 1.24
+                    if (eq.has_radar) {
+                        mul += 0.04
+                    }
+                    if (eq.night_seaplane > 1) {
+                        mul += 0.08
+                    }
+                    result.push({})
+                    result[result.length-1].type = 11
+                    result[result.length-1].arr = this.getNightAttackArr(fp, postcapMul, mul)
                 }
             }
-            return s
+            return result
         }
     },
     methods: {
