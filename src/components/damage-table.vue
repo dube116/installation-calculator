@@ -38,7 +38,7 @@ import damageTr from './damage-tr.vue'
 export default {
     data () {
         return {
-            dev: false,
+            dev: process.env.NODE_ENV === 'development',
             engage: ["T有利", "同航", "反航", "T不利"],
             night_attck_type: [
                 { // 0
@@ -108,7 +108,8 @@ export default {
                 "G": ['soukoutei', 'armed'],
                 "HH": ['soukoutei', 'armed'],
                 "I": ['M4A1', 'type_97_kai', 'panzerIIIJ'],
-                "J": ['tank_11th', 'type_1', 'panzerIII', 'panzerIIIJ'],
+                "J": ['tank_11th', 'type_1', 'panzerIII', 'panzerIIIJ'], // 對應cap後表的J 不是cap前表的J 特二式內火艇
+                // "KK": ['type_2', 'type_4_kai'] 對應cap前表的KK，cap後表的LL 獨立另外計算 僅列出
             }
         }
     },
@@ -243,26 +244,57 @@ export default {
                 calc_precapMul(167, eq.type_2)
                 calc_postcap(167, eq.type_2)
                 if (eff["type_2_imp"] != undefined){
+                    let x = 1 + eq.type_2_imp / eq.type_2 / 30
                     if (eff["type_2_imp"].precap == true)
-                        precapMul *= 1 + eq.type_2_imp / eq.type_2 / 30
+                        precapMul *= x
                         precapMul = parseFloat(precapMul.toPrecision(15))
+                        if (this.dev) {
+                            console.log('type_2_imp: ' + x + 'x precap')
+                        }
                     if (eff["type_2_imp"].postcap == true)
-                        postcapMul *= 1 + eq.type_2_imp / eq.type_2 / 30
+                        postcapMul *= x
                         postcapMul = parseFloat(postcapMul.toPrecision(15))
+                        if (this.dev) {
+                            console.log('type_2_imp: ' + x + 'x postcap')
+                        }
                 }
             }
+            if (eq.type_4_kai > 0 || eq.type_2 > 1) {
+                // 一台以上的特四式內火艇改或兩台以上的特二式內火艇
+                calc_precapMul('KK', 1)
+                calc_postcap('KK', 1)
+            }
             // 登陸艇
+            let landing_crafts_imp_mul = 1
             if (eq.landing_crafts_count > 0) {
+                landing_crafts_imp_mul += eq.landing_crafts_imp / eq.landing_crafts_count / 50
+                if (this.dev) {
+                    console.log('landing_crafts_imp_mul: ' + landing_crafts_imp_mul)
+                }
+            }
+            if (eq.type_4 + eq.type_4_kai > 0) {
+                landing_crafts_imp_mul += eq.type_4_imp / (eq.type_4 + eq.type_4_kai) / 50
+                if (this.dev) {
+                    console.log('landing_crafts_imp_mul (type_4): ' + landing_crafts_imp_mul)
+                }
+            }
+            if (eq.landing_crafts_count > 0 || eq.type_4 > 0 || eq.type_4_kai > 0) {
                 calc_precapMul('A', 1)
                 calc_postcap('A', 1)
                 if (eff["land_craft_imp"] != undefined) {
                     if (eff["land_craft_imp"].precap == true) {
-                        precapMul *= 1 + eq.landing_crafts_imp / eq.landing_crafts_count / 50
+                        precapMul *= landing_crafts_imp_mul
                         precapMul = parseFloat(precapMul.toPrecision(15))
+                        if (this.dev) {
+                            console.log('landing_crafts_imp_mul (precap): ' + landing_crafts_imp_mul +'x precap')
+                        }
                     }
                     if (eff["land_craft_imp"].postcap == true) {
-                        postcapMul *= 1 + eq.landing_crafts_imp / eq.landing_crafts_count / 50
+                        postcapMul *= landing_crafts_imp_mul
                         postcapMul = parseFloat(postcapMul.toPrecision(15))
+                        if (this.dev) {
+                            console.log('landing_crafts_imp_mul (postcap): ' + landing_crafts_imp_mul +'x postcap')
+                        }
                     }
                 }
             }
@@ -276,58 +308,84 @@ export default {
                         calc_precapMul(key, 1)
                     }
                     calc_postcap(key, 1)
+                } else if (key == 'HH') {
+                    if (eq.type_4 + eq.type_4_kai > 2) {
+                        if (this.type.day){
+                            calc_precapMul('HH', 1)
+                        }
+                        calc_postcap('HH', 1)
+                    }
                 }
             }
             
             if (eff.other!=undefined) {
                 if (eff.other.postcap!=undefined) {
+                    const d = this.dev
                     eff.other.postcap.forEach(function(item){
                         switch (item) {
                             case 0:
                                 //集積地 額外cap後 登陸艇改修補正
-                                if (eq.type_89 > 0)
-                                    postcapMul*= 1 + eq.landing_crafts_imp / eq.landing_crafts_count / 50
+                                if (eq.type_89 + eq.type_1 + eq.panzerIII + eq.panzerIIIJ > 0) {
+                                    postcapMul*= landing_crafts_imp_mul
                                     postcapMul = parseFloat(postcapMul.toPrecision(15))
-                                if (eq.panzerII > 0)
-                                    postcapMul*= 1 + eq.landing_crafts_imp / eq.landing_crafts_count / 50
+                                    if (d) {
+                                        console.log('landing_crafts_imp_mul 89/炮戰車/PIII/PIIIJ: ' + landing_crafts_imp_mul + 'x postcap')
+                                    }
+                                }
+                                if (eq.panzerII > 0) {
+                                    postcapMul*= landing_crafts_imp_mul
                                     postcapMul = parseFloat(postcapMul.toPrecision(15))
+                                    if (d) {
+                                        console.log('landing_crafts_imp_mul PII: ' + landing_crafts_imp_mul + 'x postcap')
+                                    }
+                                }
                         }
                     })
                 }
             }
             // 特殊登陸艇
             if (!this.info.torp) {
-                if (eq.tank_11th > 0 || eq.type_1 > 0 || eq.panzerIII > 0 || eq.panzerIIIJ > 0) {
+                if (eq.tank_11th > 0 || eq.type_1 > 0 || eq.panzerIII > 0 || eq.panzerIIIJ > 0) { // 1
                     precapMul *= 1.8
                     precapAdd += 25
                 }
-                if (eq.M4A1 > 0) {
+                if (eq.M4A1 > 0) { // 2
                     precapMul *= 1.4
                     precapAdd *= 1.4
                     precapAdd += 35
                 }
-                if (eq.type_1 > 0 ) {
+                if (eq.type_1 > 0 ) { // 3
                     precapMul *= 1.3
                     precapAdd *= 1.3
                     precapAdd += 42
                 }
-                if (eq.type_97 > 0 ) {
+                if (eq.type_97 > 0 ) { // 4
                     precapMul *= 1.4
                     precapAdd *= 1.4
                     precapAdd += 28
                 }
-                if (eq.type_97_kai > 0 ) {
+                if (eq.type_97_kai > 0 ) { // 5
                     precapMul *= 1.5
                     precapAdd *= 1.5
                     precapAdd += 33
+                }
+                if (eq.type_4 > 0 || eq.type_4_kai > 0) { // 6
+                    precapMul *= 1.2
+                    precapAdd *= 1.2
+                    precapAdd += 42
+                }
+                if (eq.type_4_kai > 0) { // 7
+                    precapMul *= 1.1
+                    precapAdd *= 1.1
+                    precapAdd += 28
                 }
             }
             // 登陸艇套裝
             if (!this.info.torp) {
                 let A = eq.armed
                 let B = eq.soukoutei
-                let C = eq.daihatsu + eq.toku + eq.type_89 + eq.panzerII + eq.type_1
-                let D = eq.tank_11th + eq.type_2 + eq.type_97 + eq.type_97_kai + eq.panzerIII
+                let C = eq.daihatsu + eq.toku + eq.type_89 + eq.panzerII + eq.type_1 + eq.panzerIIIJ + eq.type_4 + eq.type_4_kai
+                let D = eq.tank_11th + eq.type_97 + eq.type_97_kai + eq.panzerIII + eq.panzerIIIJ + eq.type_2
                 
                 if (A + B == 1 && C + D > 0) {
                     precapMul *= 1.2

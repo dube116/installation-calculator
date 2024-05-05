@@ -90,6 +90,10 @@ export default {
             re.panzerIII = 0
             re.panzerIIIJ = 0
             re.type_1 = 0
+
+            re.type_4 = 0 // 特四式會被算進登陸艇
+            re.type_4_kai = 0
+            re.type_4_imp = 0
             
             re.main_gun = 0
             re.secd_gun = 0
@@ -97,8 +101,8 @@ export default {
             re.gun_d2 = 0
             re.gun_d3 = 0
             
-            this.shipInfo.equipments.forEach(function(item){
-                if(lcl.indexOf(item.id)!=-1){
+            this.shipInfo.equipments.forEach(function(item) {
+                if (lcl.indexOf(item.id)!=-1) {
                     re.landing_crafts_count++
                     re.landing_crafts_imp += parseInt(item.imp)
                     switch(item.id) {
@@ -142,63 +146,53 @@ export default {
                             re.panzerIIIJ++
                             break
                     }
-                }
-                else if(item.id == 167){
+                } else if (item.id == 167) {
                     re.type_2++
                     re.type_2_imp += parseInt(item.imp)
-                }
-                else if(item.id == 35){
+                } else if (item.id == 525) {
+                    re.type_4++
+                    re.type_4_imp += parseInt(item.imp)
+                } else if (item.id == 526) {
+                    re.type_4_kai++
+                    re.type_4_imp += parseInt(item.imp)
+                } else if (item.id == 35) {
                     re.has_type_3 = true
-                }
-                else if(item.id == 36){
+                } else if(item.id == 36) {
                     re.has_AP = true
-                }                     
-                else if(item.id == 10007){
+                } else if(item.id == 10007) {
                     re.has_radar = true
-                }        
-                else if(item.id == 10008){
+                } else if(item.id == 10008) {
                     re.seaplane++
-                }
-                else if(item.id == 10009 || item.id == 490){
+                } else if(item.id == 10009 || item.id == 490) {
                     re.seaplane++
                     re.has_spotplane = true
                     if (item.id == 490) {
                         re.night_seaplane++
                     }
-                }
-                else if(item.id == 10010){
+                } else if(item.id == 10010) {
                     re.has_spotplane = true
-                }
-                else if(item.id == 10011){
+                } else if(item.id == 10011) {
                     re.divebomber++
-                }
-                else if(item.id == 126){
+                } else if(item.id == 126) {
                     re.WG42++
-                }
-                else if(item.id == 346){
+                } else if(item.id == 346) {
                     re.motar++
-                }
-                else if(item.id == 347){
+                } else if(item.id == 347) {
                     re.motar_con++
-                }
-                else if(item.id == 348){
+                } else if(item.id == 348) {
                     re.AGRL++
-                }
-                else if(item.id == 349){
+                } else if(item.id == 349) {
                     re.AGRL_con++
-                }
-                else if(item.id == 10001||item.id == 267||item.id == 366||item.id == 10002||item.id == 10003){
+                } else if(item.id == 10001||item.id == 267||item.id == 366||item.id == 10002||item.id == 10003) {
                     re.main_gun++
                     if (item.id == 267) {
                         re.gun_d2++
                     } else if (item.id == 366) {
                         re.gun_d3++
                     }
-                }
-                else if(item.id == 10||item.id == 12||item.id == 10004){
+                } else if(item.id == 10||item.id == 12||item.id == 10004) {
                     re.secd_gun++
-                }
-                else if(item.id == 10005){
+                } else if(item.id == 10005) {
                     re.torp++
                 }
             })

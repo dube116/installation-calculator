@@ -44,7 +44,7 @@ let effects = {
         346:{"precap":[1.3, 1.5, 1, 1, 1, 1]},
         10008:{"precap":[1.5]},
         10011:{"precap":[1.5, 2, 1, 1, 1, 1]},
-        167:{"precap":[2.4, 1.35, 1, 1, 1, 1]},
+        167:{"precap":[2.4, 1, 1, 1, 1, 1]},
         "A":{"precap":[1.8]},
         "B":{"precap":[1.15]},
         "C":{"precap":[1.5]},
@@ -54,6 +54,7 @@ let effects = {
         "G":{"precap":[1.3]},
         "HH":{"precap":[1.2]},
         "I":{"precap":[2]},
+        "KK":{"precap":[1.35]},
         "a12":[1.4,1.4,1,1,1,1,1,1,1,1],
         "b12":[0,0,30,0,0,0,0,0,0,0],
         "land_craft_imp":{"precap":true},
@@ -65,7 +66,7 @@ let effects = {
         348:{"precap":[1.3, 1.65, 1, 1, 1, 1]},
         346:{"precap":[1.2, 1.4, 1, 1, 1, 1]},
         10011:{"precap":[1.4, 1.75, 1, 1, 1, 1]},
-        167:{"precap":[2.4, 1.35, 1, 1, 1, 1]},
+        167:{"precap":[2.4, 1, 1, 1, 1, 1]},
         "A":{"precap":[1.8]},
         "B":{"precap":[1.15]},
         "C":{"precap":[1.2]},
@@ -75,6 +76,7 @@ let effects = {
         "G":{"precap":[1.3]},
         "HH":{"precap":[1.1]},
         "I":{"precap":[1.8]},
+        "KK":{"precap":[1.35]},
         "a12":[1,1,1,1,1,1,1,1,1,1],
         "b12":[0,0,30,0,0,0,0,0,0,0],
         "land_craft_imp":{"precap":true},
@@ -88,7 +90,7 @@ let effects = {
         346:{"precap":[1.1, 1.15, 1, 1, 1, 1]},
         10008:{"precap":[1.3]},
         10011:{"precap":[1.3, 1.2, 1, 1, 1, 1]},
-        167:{"precap":[2.8, 1.5, 1, 1, 1, 1]},
+        167:{"precap":[2.8, 1, 1, 1, 1, 1]},
         "A":{"precap":[1.7]},
         "B":{"precap":[1.2]},
         "C":{"precap":[1.6]},
@@ -98,6 +100,7 @@ let effects = {
         "G":{"precap":[1.5]},
         "HH":{"precap":[1.1]},
         "I":{"precap":[2]},
+        "KK":{"precap":[1.5]},
         "a12":[1.4,1.4,1,1,1,1,1,1,1,1],
         "b12":[0,0,30,0,0,0,0,0,0,0],
         "land_craft_imp":{"precap":true},
@@ -109,7 +112,7 @@ let effects = {
         348:{"precap":[1.25, 1.5, 1, 1, 1, 1]},
         346:{"precap":[1.2, 1.3, 1, 1, 1, 1]},
         10008:{"precap":[1.2]},
-        167:{"precap":[1.5, 1.2, 1, 1, 1, 1]},
+        167:{"precap":[1.5, 1, 1, 1, 1, 1]},
         "A":{"precap":[1.4]},
         "B":{"precap":[1.15]},
         "C":{"precap":[1.5]},
@@ -119,6 +122,7 @@ let effects = {
         "G":{"precap":[1.1]},
         "HH":{"precap":[1.1]},
         "I":{"precap":[1.1]},
+        "KK":{"precap":[1.2]},
         "a12":[1,1,1,1,1,1,1,1,1,1],
         "b12":[0,0,30,0,0,0,0,0,0,0],
         "land_craft_imp":{"precap":true},
@@ -130,7 +134,7 @@ let effects = {
         348:{"precap":[1.25, 1.5, 1, 1, 1, 1], "postcap":[1.2, 1.4, 1, 1, 1, 1]},
         346:{"precap":[1.2, 1.3, 1, 1, 1, 1], "postcap":[1.15, 1.2, 1, 1, 1, 1]},
         10008:{"precap":[1.2]},
-        167:{"precap":[1.5, 1.2, 1, 1, 1, 1], "postcap":[1.7, 1.5, 1, 1, 1, 1]},
+        167:{"precap":[1.5, 1, 1, 1, 1, 1], "postcap":[1.7, 1, 1, 1, 1, 1]},
         "A":{"precap":[1.4], "postcap":[1.7]},
         "B":{"precap":[1.15], "postcap":[1.2]},
         "C":{"precap":[1.5], "postcap":[1.3]},
@@ -142,6 +146,7 @@ let effects = {
         "I":{"precap":[1.1], "postcap":[1.2]},
         "a12":[1,1,1,1,1,1,1,1,1,1],
         "b12":[0,0,30,0,0,0,0,0,0,0],
+        "KK":{"precap":[1.2], "postcap":[1.5]},
         "land_craft_imp":{"precap":true, "postcap":true},
         "type_2_imp":{"precap":true, "postcap":true},
         "other":{"postcap":[0]}
@@ -150,7 +155,7 @@ let effects = {
         126:{"postcap":[1.25, 1.3, 1, 1, 1, 1]},
         348:{"postcap":[1.2, 1.4, 1, 1, 1, 1]},
         346:{"postcap":[1.15, 1.2, 1, 1, 1, 1]},
-        167:{"postcap":[1.7, 1.5, 1, 1, 1, 1]},
+        167:{"postcap":[1.7, 1, 1, 1, 1, 1]},
         "A":{"postcap":[1.7]},
         "B":{"postcap":[1.2]},
         "C":{"postcap":[1.3]},
@@ -160,6 +165,7 @@ let effects = {
         "G":{"postcap":[1.1]},
         "HH":{"postcap":[1.1]},
         "I":{"postcap":[1.2]},
+        "KK":{"postcap":[1.5]},
         "a12":[1,1,1,1,1,1,1,1,1,1],
         "b12":[0,0,30,0,0,0,0,0,0,0],
         "land_craft_imp":{"postcap":true},
@@ -172,7 +178,7 @@ let effects = {
         348:{"postcap":[1.1, 1.4, 1, 1, 1, 1]},
         346:{"postcap":[1.1, 1, 1, 1, 1, 1]},
         10011:{"postcap":[1.4, 1.75, 1, 1, 1, 1]},
-        167:{"postcap":[2.4, 1.35, 1, 1, 1, 1]},
+        167:{"postcap":[2.4, 1, 1, 1, 1, 1]},
         "A":{"postcap":[1.4]},
         "B":{"postcap":[1.15]},
         "C":{"postcap":[1.2]},
@@ -182,11 +188,12 @@ let effects = {
         "G":{"postcap":[1.2]},
         "HH":{"postcap":[1.1]},
         "I":{"postcap":[1.8]},
+        "KK":{"precap":[1.35]},
         "a12":[1,1,1,1,1,1,1,1,1,1],
         "b12":[0,0,0,0,0,0,0,0,0,0],
         "land_craft_imp":{"postcap":true},
         "type_2_imp":{"postcap":true},
-        "text": "第二個迫擊炮、第二台武大/AB未有數據"
+        "text": "第二個迫擊炮倍率不明"
     },
     "dock": {
         35:{"precap":[1.3]},
@@ -205,11 +212,12 @@ let effects = {
         "G":{"postcap":[1.1]},
         "I":{"postcap":[1]},
         "J":{"postcap":[1.4]},
+        "KK":{"precap":[1.2]},
         "a12":[1,1,1,1,1,1,1,1,1,1],
         "b12":[0,0,0,0,0,0,0,0,0,0],
         "land_craft_imp":{"postcap":true},
         "type_2_imp":{"postcap":true},
-        "text": "對地噴進炮、迫擊炮、特大發、第二台武大/AB、第二台內火未有數據"
+        "text": "對地噴進炮、迫擊炮、特大發、第二台武大/AB倍率不明"
     }
 }
 export default {
@@ -455,7 +463,7 @@ export default {
                     "text":"トーチカ小鬼",
                     "stat":[
                         {"text":"一般", "hp":180, "armor":100},
-                        {"text":"elite", "hp":280, "armor":145}
+                        {"text":"elite", "hp":280, "armor":140}
                     ],
                     "effect": effects['artillery']
                 },
