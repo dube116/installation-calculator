@@ -405,21 +405,23 @@ export default {
                     precapAdd += 25
                 }
             }
-            
-            if (eq.WG42 > 0) {
-                calc_precapAdd(126, eq.WG42)
-            }
-            if (eq.AGRL > 0) {
-                calc_precapAdd(348, eq.AGRL)
-            }
-            if (eq.AGRL_con > 0) {
-                calc_precapAdd(349, eq.AGRL_con)
-            }
-            if (eq.motar > 0) {
-                calc_precapAdd(346, eq.motar)
-            }
-            if (eq.motar_con > 0) {
-                calc_precapAdd(347, eq.motar_con)
+            // 噴進炮、迫擊砲加算補正
+            if (!this.info.torp) {
+                if (eq.WG42 > 0) {
+                    calc_precapAdd(126, eq.WG42)
+                }
+                if (eq.AGRL > 0) {
+                    calc_precapAdd(348, eq.AGRL)
+                }
+                if (eq.AGRL_con > 0) {
+                    calc_precapAdd(349, eq.AGRL_con)
+                }
+                if (eq.motar > 0) {
+                    calc_precapAdd(346, eq.motar)
+                }
+                if (eq.motar_con > 0) {
+                    calc_precapAdd(347, eq.motar_con)
+                }
             }
 
             if (this.dev) {
