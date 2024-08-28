@@ -228,7 +228,7 @@ export default {
             type: 0,
             enemyList: [
                 {
-                    "text":"集積地棲姬",
+                    "text":"集積地棲姫",
                     "stat":[
                         {"text":"I", "hp":600, "armor":100},
                         {"text":"II", "hp":600, "armor":130},
@@ -240,7 +240,7 @@ export default {
                     "effect": effects['supply']
                 },
                 {
-                    "text":"集積地棲姬 II",
+                    "text":"集積地棲姫 II",
                     "stat":[
                         {"text":"I", "hp":600, "armor":50},
                         {"text":"II", "hp":660, "armor":130},
@@ -252,7 +252,7 @@ export default {
                     "effect": effects['supply']
                 },
                 {
-                    "text":"集積地棲姬 III",
+                    "text":"集積地棲姫 III",
                     "stat":[
                         {"text":"I", "hp":900, "armor":16},
                         {"text":"II", "hp":2000, "armor":126},
@@ -264,7 +264,7 @@ export default {
                     "effect": effects['supply']
                 },
                 {
-                    "text":"集積地棲姬 IV",
+                    "text":"集積地棲姫 IV",
                     "stat":[
                         {"text":"I", "hp":1200, "armor":15},
                         {"text":"II", "hp":2400, "armor":92},
@@ -278,7 +278,7 @@ export default {
                     "effect": effects['supply']
                 },
                 {
-                    "text":"集積地夏姬",
+                    "text":"集積地夏姫",
                     "stat":[
                         {"text":"I", "hp":690, "armor":133},
                         {"text":"II", "hp":690, "armor":163}
@@ -327,7 +327,19 @@ export default {
                     "enableTorp": true
                 },
                 {
-                    "text":"飛行場姬",
+                    "text":"集積地棲姫 V バカンスmode",
+                    "stat":[
+                        {"text":"I", "hp":2300, "armor":12},
+                        {"text":"II", "hp":5200, "armor":91},
+                        {"text":"III", "hp":8600, "armor":191},
+                        {"text":"壞I", "hp":2300, "armor":22},
+                        {"text":"壞II", "hp":5200, "armor":121},
+                        {"text":"壞III", "hp":8600, "armor":231}
+                    ],
+                    "effect": effects['supply']
+                },
+                {
+                    "text":"飛行場姫",
                     "stat":[
                         {"text":"I", "hp":500, "armor":140},
                         {"text":"II", "hp":500, "armor":160},
@@ -337,7 +349,25 @@ export default {
                     "effect": effects['soft']
                 },
                 {
-                    "text":"港灣棲姬",
+                    "text":"飛行場夏姫",
+                    "stat":[
+                        {"text":"I", "hp":220, "armor":73},
+                        {"text":"II", "hp":330, "armor":83},
+                        {"text":"III", "hp":440, "armor":93},
+                    ],
+                    "effect": effects['soft']
+                },
+                {
+                    "text":"太平洋飛行場姫",
+                    "stat":[
+                        {"text":"I", "hp":300, "armor":47},
+                        {"text":"II", "hp":400, "armor":69},
+                        {"text":"III", "hp":500, "armor":91},
+                    ],
+                    "effect": effects['soft']
+                },
+                {
+                    "text":"港灣棲姫",
                     "stat":[
                         {"text":"I  (4-3 4-5)", "hp":380, "armor":135},
                         {"text":"II (4-5 最終)", "hp":490, "armor":183}
@@ -355,7 +385,7 @@ export default {
                     "effect": effects['soft']
                 },
                 {
-                    "text":"港灣夏姬",
+                    "text":"港灣夏姫",
                     "stat":[
                         {"text":"I", "hp":500, "armor":34},
                         {"text":"II", "hp":600, "armor":124},
@@ -367,7 +397,7 @@ export default {
                     "effect": effects['harbourSummer']
                 },
                 {
-                    "text":"港灣夏姬 II",
+                    "text":"港灣夏姫 II",
                     "stat":[
                         {"text":"I", "hp":750, "armor":14},
                         {"text":"II", "hp":1050, "armor":186},
@@ -375,6 +405,16 @@ export default {
                         {"text":"壞I", "hp":750, "armor":18},
                         {"text":"壞II", "hp":1050, "armor":216},
                         {"text":"壞III", "hp":1550, "armor":246}
+                    ],
+                    "effect": effects['harbourSummer']
+                },
+                {
+                    "text":"港湾棲姫 休日mode",
+                    "stat":[
+                        {"text":"I", "hp":570, "armor":16},
+                        {"text":"II", "hp":1700, "armor":126},
+                        {"text":"壞I", "hp":570, "armor":23},
+                        {"text":"壞II", "hp":1700, "armor":256}
                     ],
                     "effect": effects['harbourSummer']
                 },
@@ -389,14 +429,14 @@ export default {
                     "effect": effects['hard']
                 },
                 {
-                    "text":"離島棲姬",
+                    "text":"離島棲姫",
                     "stat":[
                         {"text":"I (6-4)", "hp":480, "armor":194}
                     ],
                     "effect": effects['hard']
                 },
                 {
-                    "text":"北方棲姬",
+                    "text":"北方棲姫",
                     "stat":[
                         {"text":"I", "hp":360, "armor":135},
                         {"text":"II", "hp":500, "armor":145},
