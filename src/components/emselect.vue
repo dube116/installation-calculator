@@ -162,7 +162,7 @@ let effects = {
         "DD":{"postcap":[1.6]},
         "E":{"postcap":[1.3]},
         "FF":{"postcap":[1.6]},
-        "G":{"postcap":[1.1]},
+        "G":{"postcap":[1.5]},
         "HH":{"postcap":[1.1]},
         "I":{"postcap":[1.2]},
         "KK":{"postcap":[1.5]},
