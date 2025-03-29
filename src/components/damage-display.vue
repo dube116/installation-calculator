@@ -94,6 +94,12 @@ export default {
             re.type_4 = 0 // 特四式會被算進登陸艇
             re.type_4_kai = 0
             re.type_4_imp = 0
+
+            re.rikugun = 0
+            re.infantry = 0
+            re.rikugun_type_97 = 0
+            re.rikugun_type_97_kai = 0
+            re.infantry_type_97_kai = 0
             
             re.main_gun = 0
             re.secd_gun = 0
@@ -149,6 +155,18 @@ export default {
                 } else if (item.id == 167) {
                     re.type_2++
                     re.type_2_imp += parseInt(item.imp)
+                } else if (item.id == 496) {
+                    re.rikugun++
+                    re.infantry++
+                } else if (item.id == 497) {
+                    re.rikugun++
+                    re.rikugun_type_97++
+                } else if (item.id == 498) {
+                    re.rikugun++
+                    re.rikugun_type_97_kai++
+                } else if (item.id == 499) {
+                    re.rikugun++
+                    re.infantry_type_97_kai++
                 } else if (item.id == 525) {
                     re.type_4++
                     re.type_4_imp += parseInt(item.imp)

@@ -125,6 +125,7 @@ let effects = {
         "KK":{"precap":[1.2]},
         "a12":[1,1,1,1,1,1,1,1,1,1],
         "b12":[0,0,30,0,0,0,0,0,0,0],
+        "rikugun":{"precap":[1.4, 1.2, 1.1]},
         "land_craft_imp":{"precap":true},
         "type_2_imp":{"precap":true},
     },
@@ -144,9 +145,10 @@ let effects = {
         "G":{"precap":[1.1], "postcap":[1.5]},
         "HH":{"precap":[1.1], "postcap":[1.1]},
         "I":{"precap":[1.1], "postcap":[1.2]},
+        "KK":{"precap":[1.2], "postcap":[1.5]},
         "a12":[1,1,1,1,1,1,1,1,1,1],
         "b12":[0,0,30,0,0,0,0,0,0,0],
-        "KK":{"precap":[1.2], "postcap":[1.5]},
+        "rikugun":{"precap":[1.4, 1.2, 1.1], "postcap":[1.85, 1.45, 1.2]},
         "land_craft_imp":{"precap":true, "postcap":true},
         "type_2_imp":{"precap":true, "postcap":true},
         "other":{"postcap":[0]}
@@ -168,6 +170,7 @@ let effects = {
         "KK":{"postcap":[1.5]},
         "a12":[1,1,1,1,1,1,1,1,1,1],
         "b12":[0,0,30,0,0,0,0,0,0,0],
+        "rikugun":{"postcap":[1.85, 1.45, 1.2]},
         "land_craft_imp":{"postcap":true},
         "type_2_imp":{"postcap":true},
         "other":{"postcap":[0]}
@@ -339,6 +342,18 @@ export default {
                     "effect": effects['supply']
                 },
                 {
+                    "text":"集積地棲姫改",
+                    "stat":[
+                        {"text":"I", "hp":3000, "armor":8},
+                        {"text":"II", "hp":5900, "armor":90},
+                        {"text":"III", "hp":9800, "armor":208},
+                        {"text":"壞I", "hp":3000, "armor":13},
+                        {"text":"壞II", "hp":5900, "armor":113},
+                        {"text":"壞III", "hp":9800, "armor":248}
+                    ],
+                    "effect": effects['supply']
+                },
+                {
                     "text":"飛行場姫",
                     "stat":[
                         {"text":"I", "hp":500, "armor":140},
@@ -354,6 +369,15 @@ export default {
                         {"text":"I", "hp":220, "armor":73},
                         {"text":"II", "hp":330, "armor":83},
                         {"text":"III", "hp":440, "armor":93},
+                    ],
+                    "effect": effects['soft']
+                },
+                {
+                    "text":"飛行場棲姫",
+                    "stat":[
+                        {"text":"I", "hp":330, "armor":33},
+                        {"text":"II", "hp":440, "armor":55},
+                        {"text":"III", "hp":550, "armor":77}
                     ],
                     "effect": effects['soft']
                 },

@@ -100,15 +100,15 @@ export default {
                 349: {"precap":[80, 90, 60, 30, 0, 0]}
             },
             land_craft_type: {
-                "B": ['toku', 'panzerIII', 'panzerIIIJ'],
-                "C": ['type_1', 'type_89', 'panzerIII', 'panzerIIIJ'],
-                "DD": ['type_1', 'type_89', 'type_97', 'type_97_kai', 'panzerIII', 'panzerIIIJ'],
+                "B": ['toku', 'panzerIII', 'panzerIIIJ', 'infantry', 'infantry_type_97_kai'],
+                "C": ['type_1', 'type_89', 'panzerIII', 'panzerIIIJ', 'infantry', 'infantry_type_97_kai'],
+                "DD": ['type_1', 'type_89', 'type_97', 'type_97_kai', 'panzerIII', 'panzerIIIJ', 'infantry', 'rikugun_type_97', 'rikugun_type_97_kai', 'infantry_type_97_kai'],
                 "E": ['panzerII'],
                 "FF": ['panzerII'],
                 "G": ['soukoutei', 'armed'],
                 "HH": ['soukoutei', 'armed'],
-                "I": ['M4A1', 'type_97_kai', 'panzerIIIJ'],
-                "J": ['tank_11th', 'type_1', 'panzerIII', 'panzerIIIJ'], // 對應cap後表的J 不是cap前表的J 特二式內火艇
+                "I": ['M4A1', 'type_97_kai', 'panzerIIIJ', 'rikugun_type_97_kai', 'infantry_type_97_kai'],
+                "J": ['tank_11th', 'type_1', 'panzerIII', 'panzerIIIJ', 'infantry', 'infantry_type_97_kai'], // 對應cap後表的J 不是cap前表的J 特二式內火艇
                 // "KK": ['type_2', 'type_4_kai'] 對應cap前表的KK，cap後表的LL 獨立另外計算 僅列出
             }
         }
@@ -278,7 +278,7 @@ export default {
                     console.log('landing_crafts_imp_mul (type_4): ' + landing_crafts_imp_mul)
                 }
             }
-            if (eq.landing_crafts_count > 0 || eq.type_4 > 0 || eq.type_4_kai > 0) {
+            if (eq.landing_crafts_count > 0 || eq.type_4 > 0 || eq.type_4_kai > 0 || eq.rikugun > 0) {
                 calc_precapMul('A', 1)
                 calc_postcap('A', 1)
                 if (eff["land_craft_imp"] != undefined) {
@@ -317,6 +317,10 @@ export default {
                     }
                 }
             }
+
+            // 陸軍
+            calc_precapMul('rikugun', eq.rikugun)
+            calc_postcap('rikugun', eq.rikugun)
             
             if (eff.other!=undefined) {
                 if (eff.other.postcap!=undefined) {
@@ -325,11 +329,11 @@ export default {
                         switch (item) {
                             case 0:
                                 //集積地 額外cap後 登陸艇改修補正
-                                if (eq.type_89 + eq.type_1 + eq.panzerIII + eq.panzerIIIJ > 0) {
+                                if (eq.type_89 + eq.type_1 + eq.panzerIII + eq.panzerIIIJ + eq.infantry + eq.infantry_type_97_kai > 0) {
                                     postcapMul*= landing_crafts_imp_mul
                                     postcapMul = parseFloat(postcapMul.toPrecision(15))
                                     if (d) {
-                                        console.log('landing_crafts_imp_mul 89/炮戰車/PIII/PIIIJ: ' + landing_crafts_imp_mul + 'x postcap')
+                                        console.log('landing_crafts_imp_mul 89/炮戰車/PIII/PIIIJ/步兵: ' + landing_crafts_imp_mul + 'x postcap')
                                     }
                                 }
                                 if (eq.panzerII > 0) {
@@ -369,12 +373,48 @@ export default {
                     precapAdd *= 1.5
                     precapAdd += 33
                 }
-                if (eq.type_4 > 0 || eq.type_4_kai > 0) { // 6
+                if (eq.infantry > 0 || eq.infantry_type_97_kai > 0) { // 6
+                    precapMul *= 1.2
+                    precapAdd *= 1.2
+                    precapAdd += 60
+                }
+                if (eq.rikugun_type_97 > 0 || eq.rikugun_type_97_kai > 0) { // 7
+                    precapMul *= 1.5
+                    precapAdd *= 1.5
+                    precapAdd += 70
+                }
+                if (eq.rikugun_type_97_kai > 0) { // 8
+                    precapMul *= 1.5
+                    precapAdd *= 1.5
+                    precapAdd += 50
+                }
+                if (eq.infantry_type_97_kai > 0) { // 9
+                    precapMul *= 1.6
+                    precapAdd *= 1.6
+                    precapAdd += 70
+                }
+                if (eq.rikugun > 1) { // 10
+                    precapMul *= 2
+                    precapAdd *= 2
+                    precapAdd += 100
+                    if (eq.infantry_type_97_kai > 0 || eq.infantry + eq.rikugun_type_97 + eq.rikugun_type_97_kai + eq.type_2 + eq.type_4 + eq.type_4_kai > 2) { // 11
+                        precapMul *= 3
+                        precapAdd *= 3
+                        precapAdd += 150
+                    }
+                    if (eq.type_4 > 0) { // 12
+                        precapAdd += 100
+                    }
+                    if (eq.type_4_kai > 0) { // 13
+                        precapAdd += 172
+                    }
+                }
+                if (eq.type_4 > 0 || eq.type_4_kai > 0) { // 14
                     precapMul *= 1.2
                     precapAdd *= 1.2
                     precapAdd += 42
                 }
-                if (eq.type_4_kai > 0) { // 7
+                if (eq.type_4_kai > 0) { // 15
                     precapMul *= 1.1
                     precapAdd *= 1.1
                     precapAdd += 28
