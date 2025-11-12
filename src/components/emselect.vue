@@ -532,6 +532,15 @@ export default {
                     "effect": effects['artillery']
                 },
                 {
+                    "text":"深海上陸小鬼",
+                    "stat":[
+                        {"text":"一般", "hp":220, "armor":77},
+                        {"text":"elite", "hp":420, "armor":101},
+                        {"text":"flagship", "hp":620, "armor":131}
+                    ],
+                    "effect": effects['artillery']
+                },
+                {
                     "text":"トーチカ要塞棲姫",
                     "stat":[
                         {"text":"I", "hp":1000, "armor":77},
