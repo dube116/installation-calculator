@@ -45,7 +45,7 @@ export default {
 			],
             nightAttackType:{"id": 1000, "text": "夜戰", "day": false, pre: 1, post: 1},
 			eq_id: [],
-            landing_crafts_iist: [68, 166, 193, 230, 355, 408, 409, 436, 449, 482, 494, 495, 514],
+            landing_crafts_iist: [68, 166, 193, 230, 355, 408, 409, 436, 449, 482, 494, 495, 514, 576],
             enemyInfo: {}
 		}
 	},
@@ -90,6 +90,7 @@ export default {
             re.panzerIII = 0
             re.panzerIIIJ = 0
             re.type_1 = 0
+            re.R35 = 0
 
             re.type_4 = 0 // 特四式會被算進登陸艇
             re.type_4_kai = 0
@@ -150,6 +151,9 @@ export default {
                             break
                         case 514:
                             re.panzerIIIJ++
+                            break
+                        case 576:
+                            re.R35++
                             break
                     }
                 } else if (item.id == 167) {

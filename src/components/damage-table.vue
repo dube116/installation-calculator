@@ -110,6 +110,7 @@ export default {
                 "I": ['M4A1', 'type_97_kai', 'panzerIIIJ', 'rikugun_type_97_kai', 'infantry_type_97_kai'],
                 "J": ['tank_11th', 'type_1', 'panzerIII', 'panzerIIIJ', 'infantry', 'infantry_type_97_kai'], // 對應cap後表的J 不是cap前表的J 特二式內火艇
                 // "KK": ['type_2', 'type_4_kai'] 對應cap前表的KK，cap後表的LL 獨立另外計算 僅列出
+                // 大発動艇(R35&フランス兵 另外算一次E (FF未知) 獨立另外計算 僅列出
             }
         }
     },
@@ -263,6 +264,10 @@ export default {
                 // 一台以上的特四式內火艇改或兩台以上的特二式內火艇
                 calc_precapMul('KK', 1)
                 calc_postcap('KK', 1)
+            }
+            if (eq.R35 > 0) {
+                calc_precapMul('E', 1)
+                calc_postcap('E', 1)
             }
             // 登陸艇
             let landing_crafts_imp_mul = 1
@@ -419,12 +424,22 @@ export default {
                     precapAdd *= 1.1
                     precapAdd += 28
                 }
+                if (eq.panzerII > 0) { // 16
+                    precapMul *= 1.15
+                    precapAdd *= 1.15
+                    precapAdd += 15
+                }
+                if (eq.R35 > 0) { // 17
+                    precapMul *= 1.2
+                    precapAdd *= 1.2
+                    precapAdd += 20
+                }
             }
             // 登陸艇套裝
             if (!this.info.torp) {
                 let A = eq.armed
                 let B = eq.soukoutei
-                let C = eq.daihatsu + eq.toku + eq.type_89 + eq.panzerII + eq.type_1 + eq.panzerIIIJ + eq.type_4 + eq.type_4_kai
+                let C = eq.daihatsu + eq.toku + eq.type_89 + eq.panzerII + eq.type_1 + eq.panzerIIIJ + eq.type_4 + eq.type_4_kai + eq.R35
                 let D = eq.tank_11th + eq.type_97 + eq.type_97_kai + eq.panzerIII + eq.panzerIIIJ + eq.type_2
                 
                 if (A + B == 1 && C + D > 0) {
